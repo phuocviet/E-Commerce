@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import Navbar from "../components/navbar/navbar";
 
 const Bookdetail = () => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const Bookdetail = () => {
   const showDetail = useMemo(() => {
     return (
       <div>
+        <Navbar/>
         {detail ? (
           <div className="mt-20 ml-20">
             <div className="flex h-[405px]">

@@ -23,7 +23,7 @@ const Navbar = ({ onSearch }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    console.log(search);
     await onSearch(search);
   };
   return (
@@ -83,11 +83,11 @@ const Navbar = ({ onSearch }) => {
             popup ? "left-0" : "left-[-290px]"
           } absolute`}
         >
-          <li className="py-5">Home</li>
-          <li className="py-5">Still</li>
-          <li className="py-5">Working</li>
-          <li className="py-5">On</li>
-          <li className="py-5">It</li>
+          <a href='/' className="py-5">Home</a>
+          <a href='/bookstore' className="py-5">Book store</a>
+          <a href='/createproduct' className="py-5">Add product</a>
+          <a href='/' className="py-5">On</a>
+          <a href='/' className="py-5">It</a>
         </ul>
       </div>
     </nav>

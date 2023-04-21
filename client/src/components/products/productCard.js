@@ -3,7 +3,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 const ProductCard = (props) => {
   const book = props.book;
-  const [isFavorite, setFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const formatter = new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
@@ -29,7 +29,7 @@ const ProductCard = (props) => {
           {isFavorite ? (
             <AiFillStar className=" text-yellow-300" />
           ) : (
-            <AiOutlineStar className="text-white" onClick={setFavorite(true)} />
+            <AiOutlineStar className="text-white" onClick={setIsFavorite(true)} />
           )}
         </button>
         <div className="px-3 h-[270px] w-[200px]">

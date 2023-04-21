@@ -1,0 +1,29 @@
+{
+    "products":
+    [
+      {
+        "id": 1,
+        "name": "iPhone 14",
+        "price": 999,
+        "color": "blue"
+      },
+      {
+        "id": 2,
+        "name": "Samsung Galaxy S22",
+        "price": 899,
+        "color": "black"
+      },
+      {
+        "id": 3,
+        "name": "Google Pixel 7",
+        "price": 799,
+        "color": "white"
+      },
+      {
+        "id": 4,
+        "name": "OnePlus 11",
+        "price": 899,
+        "color": "red"
+      }
+    ]
+}

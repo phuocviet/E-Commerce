@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import ProductCard from "./productCard";
 import { Link } from "react-router-dom";
 
-const Products = ({ booksData }) => {
+const Products = ({ booksData  }) => {
   const bookCards = useMemo(() => {
     return booksData.map((book) => {
       return (
