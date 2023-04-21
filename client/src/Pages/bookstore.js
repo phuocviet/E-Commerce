@@ -23,7 +23,6 @@ const Bookstore = () => {
       .then((res) => setData(res.data.items))
       .catch((err) => console.log(err));
     }
-    getbook()
     
     return (
       <div>

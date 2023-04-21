@@ -17,9 +17,9 @@ const Navbar = ({ onSearch }) => {
       setDrop(false);
     }
   };
-  const onChange = async (e) => {
+  const onChange = (e) => {
     e.preventDefault();
-    await setSearch(e.target.value);
+    setSearch(e.target.value);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
