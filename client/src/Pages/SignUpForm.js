@@ -12,21 +12,20 @@ const SignUpForm = () => {
     const [address, setAddress] = useState('')
     const [phone, setPhone] = useState('')
     
-    const checkValidate = (e) =>{ 
-        setConfirmPass(e.target.value)
-        if(password !== confirmPass){
-            setIsError("Password should be matched!")
-        }
-        else {
-            setIsError(null)
-        }
-        
-    }
+
     console.log(password, confirmPass);
     const SignUp = (e) =>{
         e.preventDefault()
         let user = {username,email,password,address,phone}
-        
+        if(password !== confirmPass){
+            setIsError("Password should be matched!")
+            return;
+        }
+        try {
+            setIsError(null)
+        } catch (error) {
+            console.error(error);
+        }
         if(!username || !email || !password){
             toast.error("Every fields need to be filled")
             
@@ -59,17 +58,17 @@ const SignUpForm = () => {
                 value={email} onChange={(e) => setEmail(e.target.value)} type='email'
             />
         </div>
-        <div className='col-span-full pt-8 pl-5 block'>
+        <div className='pt-8 pl-5 block'>
             <label htmlFor='password' className='text-neutral-600'>Password: </label>
             <input id='password' type='password' className='px-2 block w-[300px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6 '
                 value={password} onChange={(e) => setPassword(e.target.value)}
             />
         </div>
-        <div className='col-span-full pt-8 pl-5 block'>
+        <div className='pt-8 pl-5 block'>
             <label htmlFor='cfpassword' className='text-neutral-600'>Confirm password: </label>
             <input id='cfpassword' type='password' className='px-2 block w-[300px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6 '
-                value={confirmPass} onChange={checkValidate}
-            /><span className='absolute right-[650px] text-red-600'>{isError}</span>
+                value={confirmPass} onChange={(e)=>setConfirmPass(e.target.value)}
+            /><span className='relative text-red-600 text-lg '>{isError}</span>
         </div>
         <div className='pt-8 pl-5 block'>
             <label className='text-neutral-600'>Address: </label>

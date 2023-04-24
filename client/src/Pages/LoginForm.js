@@ -16,7 +16,7 @@ const LoginForm = () => {
     const handleLogin = (e) =>{
         e.preventDefault()
         validate()
-        axios.get('http://localhost:4000/users?email='+ email)
+        axios.post('http://localhost:4000/login'+ email)
         .then((res) =>{
             return res.json
         })
