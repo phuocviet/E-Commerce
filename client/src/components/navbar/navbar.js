@@ -4,11 +4,12 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BiSearch, BiCartAlt } from "react-icons/bi";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { FiMenu } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ onSearch }) => {
   const [popup, setPopup] = useState(false);
   const [onDrop, setDrop] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const handleDrop = () => {
     if (onDrop === false) {
       setDrop(true);
@@ -23,14 +24,15 @@ const Navbar = ({ onSearch }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(search);
+
     await onSearch(search);
+    localStorage.setItem(search);
   };
   return (
     <nav>
       <div className="w-full z-20 h-[60px] bg-slate-800 flex justify-center items-center">
         <div className=" absolute left-8 text-3xl text-white">
-          <p>Ama-giòn</p>
+          <p>Ama-Gion</p>
         </div>
         <div className=" absolute left-[300px] w-[60%]">
           <button
@@ -58,9 +60,9 @@ const Navbar = ({ onSearch }) => {
         </div>
         <div className=" absolute right-0 grid grid-cols-4 text-white w-[400px]">
           <button className="w-16">Language</button>
-          <button className="w-28">
+          <Link to="/login" className="w-28">
             <span className="text-sm">Hello, sign in </span>Account & list
-          </button>
+          </Link>
           <button className="">return & orders</button>
           <div className="w-16 text-3xl py-3 hover:cursor-pointer hover:border-inherit border-solid">
             <BiCartAlt />
@@ -83,11 +85,25 @@ const Navbar = ({ onSearch }) => {
             popup ? "left-0" : "left-[-290px]"
           } absolute`}
         >
-          <a href='/' className="py-5">Home</a>
-          <a href='/bookstore' className="py-5">Book store</a>
-          <a href='/createproduct' className="py-5">Add product</a>
-          <a href='/' className="py-5">On</a>
-          <a href='/' className="py-5">It</a>
+          <a
+            href="/"
+            className="py-1 transition-all duration-200 ease-in hover:bg-slate-500"
+          >
+            Products
+          </a>
+          <a
+            href="/bookstore"
+            className="py-1 transition-all duration-200 ease-in hover:bg-slate-500"
+          >
+            Book store
+          </a>
+          <a
+            href="/product"
+            className="py-1 transition-all duration-200 ease-in hover:bg-slate-500"
+          >
+            Product store
+          </a>
+          
         </ul>
       </div>
     </nav>

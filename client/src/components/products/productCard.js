@@ -29,7 +29,10 @@ const ProductCard = (props) => {
           {isFavorite ? (
             <AiFillStar className=" text-yellow-300" />
           ) : (
-            <AiOutlineStar className="text-white" onClick={setIsFavorite(true)} />
+            <AiOutlineStar
+              className="text-white"
+              onClick={setIsFavorite(true)}
+            />
           )}
         </button>
         <div className="px-3 h-[270px] w-[200px]">

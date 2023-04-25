@@ -23,7 +23,7 @@ const Bookdetail = () => {
   const showDetail = useMemo(() => {
     return (
       <div>
-        <Navbar/>
+        <Navbar />
         {detail ? (
           <div className="mt-20 ml-20">
             <div className="flex h-[405px]">
