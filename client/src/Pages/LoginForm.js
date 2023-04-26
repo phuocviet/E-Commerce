@@ -17,22 +17,22 @@ const LoginForm = () => {
     e.preventDefault();
     validate();
     axios
-      .post("http://localhost:4000/login" + email)
+      .get("http://localhost:4000/users?email=" + email)
       .then((res) => {
-        return res.json;
+      const users = res.data;
+      const authenticatedUser = users.find(u => u.email === email && u.password === password);
+      if (authenticatedUser) {
+        toast.success('Login success');
+        setTimeout(()=>{
+          window.location.href='/'
+        },3000)
+      }else{
+        toast.error('Fail to login')
+      }
       })
-      .then((res) => {
-        if (res.email !== email) {
-          toast.error("Please enter valid email");
-        } else {
-          if (res.password === password) {
-            toast.success("Login success");
-            window.location.href = "/";
-          } else {
-            toast.error("Please enter valid password");
-          }
-        }
-      });
+      .catch((err) =>{
+        toast.error("ERROR:" + err.message)
+      })
   };
 
   return (

@@ -74,21 +74,11 @@ const ProductStore = () => {
         }
     }) 
   }
-  
+  const checkDelete = (id) =>{
+    setIsDeleting(id)
+}
   const handleAbort = () =>{
     setIsDeleting(false)
-  }
-  
-  //Edit product
-  const handleEdit = (params) =>{
-    const id = params
-    axios.get(`http://localhost:4000/products/${id}`)
-    .then((res) => {
-
-    })
-    .catch((err)=>{
-        toast.error("Error:"+err.message)
-    })
   }
 
 
@@ -96,9 +86,9 @@ const ProductStore = () => {
     <div>
         <Navbar/>
         <ToastContainer/>
-        <div className='flex'>
-            <h1 className='fixed text-xl text-neutral-600 font-semibold absolute left-44 pt-10'>PRODUCT STORAGE</h1>
-        <form className='mx-36 my-20 w-max h-max bg-white shadow-md' onSubmit={addProduct}>  
+        <div className='lg:flex md:block block'>
+            <h1 className='text-xl text-neutral-600 font-semibold absolute right-44 pt-10'>PRODUCT STORAGE</h1>
+        <form className='mx-20 my-24 w-max h-max bg-white ring-gray-400 ring-1' onSubmit={addProduct}>  
             <div className=' pt-8 pl-5 block'>
                 <label htmlFor='title' className=' text-neutral-600'>Title: </label>
                 <input id='title' className='px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6'
@@ -143,7 +133,8 @@ const ProductStore = () => {
             handleAbort={handleAbort} 
             handleDelete={handleDelete} 
             setIsDeleting={setIsDeleting}
-            handleEdit={handleEdit}/>
+            checkDelete={checkDelete}
+            />
             }
         </div>
           
