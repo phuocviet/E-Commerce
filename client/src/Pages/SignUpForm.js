@@ -46,7 +46,7 @@ const SignUpForm = () => {
         Join with us
       </h1>
       <form
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 rows-2 my-20 w-max h-max bg-white shadow-md rounded-lg"
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 rows-2 my-20 w-max h-max bg-white shadow-2xl rounded-lg"
         onSubmit={SignUp}
       >
         <div className=" pt-8 pl-5 block">

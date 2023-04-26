@@ -5,6 +5,7 @@ import MainStore from "./Pages/MainStore";
 import SignUpForm from "./Pages/SignUpForm";
 import LoginForm from "./Pages/LoginForm";
 import ProductStore from "./Pages/ProductStore";
+import EditProduct from "./Pages/EditProduct";
 import ProductDetail from "./Pages/ProductDetail";
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
         <Route path="/" element={<MainStore />} />
         <Route path="/product" element={<ProductStore />} />
         <Route path="/bookstore" element={<Bookstore />} />
-        <Route path="/edit/:id" element={<ProductDetail />} />
+        <Route path="/detail/:id" element={<ProductDetail />} />
+        <Route path="/edit/:id" element={<EditProduct />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>

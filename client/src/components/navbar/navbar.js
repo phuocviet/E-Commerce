@@ -34,9 +34,9 @@ const Navbar = ({ onSearch }) => {
         <div className=" absolute left-8 text-3xl text-white">
           <p>Ama-Gion</p>
         </div>
-        <div className=" absolute left-[300px] w-[60%]">
+        <div className="absolute left-[300px] w-[60%] lg:block hidden ">
           <button
-            className="absolute flex px-4 h-10 text-slate-500 bg-slate-300 rounded-tl-md rounded-bl-md"
+            className="absolute flex px-4 h-10 text-slate-500 bg-slate-300 rounded-tl-md rounded-bl-md "
             onClick={handleDrop}
           >
             <span className="mt-2 pr-1">All</span>
@@ -49,16 +49,16 @@ const Navbar = ({ onSearch }) => {
           <input
             value={search}
             onChange={onChange}
-            className="w-[78%] h-10 pl-20 rounded-l-md"
+            className="w-[78%] h-10 pl-20 rounded-l-md "
           ></input>
           <button
             onClick={handleSubmit}
-            className="absolute text-white text-lg px-4 bg-orange-400 h-10 rounded-tr-md rounded-br-md"
+            className="absolute text-white text-lg px-4 bg-orange-400 h-10 rounded-tr-md rounded-br-md "
           >
             <BiSearch />
           </button>
         </div>
-        <div className=" absolute right-0 grid grid-cols-4 text-white w-[400px]">
+        <div className=" absolute right-0 lg:grid grid-cols-4 text-white w-[400px] hidden">
           <button className="w-16">Language</button>
           <Link to="/login" className="w-28">
             <span className="text-sm">Hello, sign in </span>Account & list
@@ -81,29 +81,28 @@ const Navbar = ({ onSearch }) => {
       </div>
       <div className="z-10">
         <ul
-          className={`md:flex md:flex-col z-10 text-xl text-gray-200 w-72 pl-8 h-[100vh] bg-slate-800 pt-4 transition-all duration-300 ease-in ${
+          className={`md:flex md:flex-col z-10 text-xl text-gray-200 w-64 h-[100vh] bg-slate-800 pt-4 transition-all duration-300 ease-in ${
             popup ? "left-0" : "left-[-290px]"
           } absolute`}
         >
           <a
             href="/"
-            className="py-1 transition-all duration-200 ease-in hover:bg-slate-500"
+            className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
           >
             Products
           </a>
           <a
-            href="/bookstore"
-            className="py-1 transition-all duration-200 ease-in hover:bg-slate-500"
-          >
-            Book store
-          </a>
-          <a
             href="/product"
-            className="py-1 transition-all duration-200 ease-in hover:bg-slate-500"
+            className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
           >
             Product store
           </a>
-          
+          <a
+            href="/bookstore"
+            className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
+          >
+            Book store
+          </a>
         </ul>
       </div>
     </nav>
