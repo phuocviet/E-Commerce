@@ -55,40 +55,30 @@ const EditProduct = () => {
         {product && 
         <div className='grid grid-cols-3 mt-16'>
             <img className=' w-[400px] ml-10' alt='' src={product.img}/>
-            <div className='block col-span-2 text-lg text-gray-600'>
-                <h1 className='text-2xl'>{product.name}</h1>
-                <p className='ring-1 ring-slate-600 w-40'></p>
-                <p>Description: {product.description}</p>
-                <p>Amount: {product.amount}</p>
-                <p>Price: {product.price}<strong>$</strong></p>
-            </div>
-            
-        </div>
-        }
-        <form className='mx-20 my-24 w-[70%] h-max bg-white ring-gray-400 ring-1' onSubmit={updateProduct}>  
+            <form className='mx-20 col-span-2 w-[90%] h-max bg-white ring-gray-400 ring-1' onSubmit={updateProduct}>  
             <div className=' pt-8 pl-5 block'>
                 <label htmlFor='title' className=' text-neutral-600'>Title: </label>
                 <input id='title' className='px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6'
-                    value={name} onChange={(e) => setName(e.target.value)}
+                    value={name} onChange={(e) => setName(e.target.value)} placeholder={product.name}
                 />
             </div>
             <div className='pt-8 pl-5 block'>
                 <label htmlFor='money' className='text-neutral-600'>Price: </label>
                 <input id='money' className='px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6'
-                    value={price} onChange={(e) => setPrice(e.target.value)}
+                    value={price} onChange={(e) => setPrice(e.target.value)} placeholder={product.price}
                 />
             </div>
             <div className='pt-8 pl-5 block'>
                 <label htmlFor='description' className='text-neutral-600'>Description: </label>
                 <input id='description' type='text' className='px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6 '
-                    value={description} onChange={(e) => setDescription(e.target.value)}
+                    value={description} onChange={(e) => setDescription(e.target.value)} placeholder={product.description}
                 />
             </div>
             
             <div className='pt-8 pl-5 block'>
                 <label className='text-neutral-600'>Amount: </label>
                 <input className='px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6'
-                    value={amount} onChange={(e)=>setAmount(e.target.value)} type='number'
+                    value={amount} onChange={(e)=>setAmount(e.target.value)} type='number' placeholder={product.amount}
                 />
             </div>
         
@@ -99,9 +89,13 @@ const EditProduct = () => {
                 />
             </div>
             <div className=' col-span-full text-center my-5'>
-                <button type='submit' className='text-orange-500 transition-colors duration-100 hover:bg-orange-500 hover:text-white py-1 rounded-md w-[450px]'>Update</button>
+                <button type='submit' className='hover:shadow-gray-400 hover:shadow-lg duration-100 bg-orange-500 text-white py-1 rounded-md w-[450px]'>Update</button>
             </div>
         </form>
+            
+        </div>
+        }
+        
     </div>
   )
 }

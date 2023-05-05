@@ -1,10 +1,14 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginSucces, loginFail } from "../app/features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
+import { persistor } from "../app/store";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch()
   const validate = () => {
     let result = true;
     if (!email || !password) {
@@ -23,11 +27,14 @@ const LoginForm = () => {
       const authenticatedUser = users.find(u => u.email === email && u.password === password);
       if (authenticatedUser) {
         toast.success('Login success');
+        dispatch(loginSucces(users))
+        persistor.flush()
         setTimeout(()=>{
           window.location.href='/'
         },3000)
       }else{
         toast.error('Fail to login')
+        dispatch(loginFail())
       }
       })
       .catch((err) =>{

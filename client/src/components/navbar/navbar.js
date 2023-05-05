@@ -5,11 +5,15 @@ import { BiSearch, BiCartAlt } from "react-icons/bi";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = ({ onSearch }) => {
   const [popup, setPopup] = useState(false);
   const [onDrop, setDrop] = useState(false);
   const [search, setSearch] = useState("");
+  // const [isLogin, setIsLogin] = useState(false)
+
+  const currentuser = useSelector(state => state.auth.user[0].email);
   const handleDrop = () => {
     if (onDrop === false) {
       setDrop(true);
@@ -28,6 +32,7 @@ const Navbar = ({ onSearch }) => {
     await onSearch(search);
     localStorage.setItem(search);
   };
+
   return (
     <nav>
       <div className="w-full z-20 h-[60px] bg-slate-800 flex justify-center items-center">
@@ -58,15 +63,17 @@ const Navbar = ({ onSearch }) => {
             <BiSearch />
           </button>
         </div>
-        <div className=" absolute right-0 lg:grid grid-cols-4 text-white w-[400px] hidden">
-          <button className="w-16">Language</button>
-          <Link to="/login" className="w-28">
+        <div className=" absolute right-0 lg:grid md:hidden grid-cols-4 text-white w-[500px] sm:hidden">
+          <button className="w-16 pl-10">Language</button>
+            { currentuser? 
+            <button className="col-span-2">{currentuser}</button>:
+            <Link to="/login" className="w-28">
             <span className="text-sm">Hello, sign in </span>Account & list
-          </Link>
-          <button className="">return & orders</button>
-          <div className="w-16 text-3xl py-3 hover:cursor-pointer hover:border-inherit border-solid">
+            </Link>
+            }
+          <button className="w-16 text-3xl py-3 hover:border-inherit border-solid">
             <BiCartAlt />
-          </div>
+          </button>
         </div>
       </div>
       <div className="w-full h-[40px] bg-slate-700">
@@ -81,7 +88,7 @@ const Navbar = ({ onSearch }) => {
       </div>
       <div className="z-10">
         <ul
-          className={`md:flex md:flex-col z-10 text-xl text-gray-200 w-64 h-[100vh] bg-slate-800 pt-4 transition-all duration-300 ease-in ${
+          className={`flex flex-col z-10 text-xl text-gray-200 w-64 h-[100vh] bg-slate-800 pt-4 transition-all duration-300 ease-in ${
             popup ? "left-0" : "left-[-290px]"
           } absolute`}
         >
@@ -91,12 +98,12 @@ const Navbar = ({ onSearch }) => {
           >
             Products
           </a>
-          <a
+          {currentuser && <a
             href="/product"
             className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
           >
             Product store
-          </a>
+          </a>}
           <a
             href="/bookstore"
             className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"

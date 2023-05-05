@@ -122,7 +122,7 @@ const ProductStore = () => {
                 />
             </div>
             <div className=' col-span-full text-center my-8'>
-                <button type='submit' className='text-orange-500 transition-colors duration-100 hover:bg-orange-500 hover:text-white py-1 rounded-md w-[450px]'>Add</button>
+                <button type='submit' className=' hover:shadow-gray-400 hover:shadow-lg transition-all duration-100 bg-orange-500 text-white py-1 rounded-md w-[450px]'>Add</button>
             </div>
         </form>
         <div className='absolute right-40 flex flex-col my-20'>

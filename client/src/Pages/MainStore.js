@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Navbar from "../components/navbar/navbar";
+import ReactPaginate from 'react-paginate'
 import axios from "axios";
+import './paginate.css'
 
 const MainStore = () => {
   const [products, setProducts] = useState([]);
+  const [pageCount, setPageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0)
+  const itemsperPage = 9;
+
   useEffect(() => {
     const getProducts = async () => {
       await axios
@@ -12,22 +18,29 @@ const MainStore = () => {
         .catch((error) => console.log(error));
     };
     getProducts();
-  }, []);
-
+    setPageCount(Math.ceil(products.length/ itemsperPage))
+  }, [products]);
+  const currentProducts = useMemo(() => {
+    const endOffset = itemOffset + itemsperPage;
+    return products.slice(itemOffset, endOffset);
+  }, [itemOffset, products, itemsperPage]);
   const showDetail = (id) =>{
     window.location.href='/detail/'+id
   }
-
+  const handlePageClick = (e) =>{
+    const newOffset = (e.selected * itemsperPage) % products.length;
+    setItemOffset(newOffset);
+  }
   return (
     <div>
       <Navbar />
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">
-      {products.map((product) => {
+      {currentProducts.map((product) => {
         return (
           <div className="m-5 transition-all ease-in-out hover:shadow-2xl rounded-lg" key={product.id}>
-            <div className='w-[330px]'>
+            <div className=''>
               <header className="flex justify-center">
-                <img src={product.img} alt="" className=" h-[330px]"/>
+                <img src={product.img} alt="" className=" h-[300px] "/>
               </header>
               <div className="ml-4 mb-3">
                 <h4 className=" italic text-xl">{product.name}</h4>
@@ -76,6 +89,21 @@ const MainStore = () => {
         );
       })}
       </div>
+      <ReactPaginate 
+        containerClassName="flex flex-row justify-center items-center space-x-2 my-5"
+        activeClassName="bg-blue-500 text-white rounded-md px-3 py-2"
+        pageClassName="rounded-md px-3 py-2 bg-gray-200 text-gray-700"
+        previousClassName="rounded-md px-3 py-2 bg-gray-200 text-gray-700"
+        nextClassName="rounded-md px-3 py-2 bg-gray-200 text-gray-700"
+        disabledClassName="disabled"
+        breakLabel="..."
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={6}
+        pageCount={pageCount}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+      />
     </div>
   );
 };
