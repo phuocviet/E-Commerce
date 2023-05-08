@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/navbar/navbar'
+import Sidebar from '../../components/navbar/sidebar'
 import {ToastContainer, toast} from 'react-toastify';
 import axios from 'axios'
-import ProductsList from '../components/products/ProductsList';
+import ProductsList from '../../components/products/ProductsList';
 
 const ProductStore = () => {
     const [products, setProducts] = useState([])
@@ -84,33 +84,33 @@ const ProductStore = () => {
 
   return (
     <div>
-        <Navbar/>
+        <Sidebar/>
         <ToastContainer/>
-        <div className='lg:flex md:block block'>
+        <div className='lg:flex md:block block mt-10'>
             <h1 className='text-xl text-neutral-600 font-semibold absolute right-44 pt-10'>PRODUCT STORAGE</h1>
         <form className='mx-20 my-24 w-max h-max bg-white ring-gray-400 ring-1' onSubmit={addProduct}>  
             <div className=' pt-8 pl-5 block'>
                 <label htmlFor='title' className=' text-neutral-600'>Title: </label>
-                <input id='title' className='px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6'
+                <input id='title' className='px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6'
                     value={name} onChange={(e) => setName(e.target.value)}
                 />
             </div>
             <div className='pt-8 pl-5 block'>
                 <label htmlFor='money' className='text-neutral-600'>Price: </label>
-                <input id='money' className='px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6'
+                <input id='money' className='px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6'
                     value={price} onChange={(e) => setPrice(e.target.value)}
                 />
             </div>
             <div className='pt-8 pl-5 block'>
                 <label htmlFor='description' className='text-neutral-600'>Description: </label>
-                <input id='description' type='text' className='px-2 block w-[450px] h-40 mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6 '
+                <input id='description' type='text' className='px-2 block w-[450px] h-40 mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6 '
                     value={description} onChange={(e) => setDescription(e.target.value)}
                 />
             </div>
             
             <div className='pt-8 pl-5 block'>
                 <label className='text-neutral-600'>Amount: </label>
-                <input className='px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6'
+                <input className='px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6'
                     value={amount} onChange={(e)=>setAmount(e.target.value)}
                 />
             </div>

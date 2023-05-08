@@ -12,8 +12,8 @@ const ProductsList = ({products,isDeleting,handleAbort,handleDelete,checkDelete}
       lg:supports-scrollbars:pr-2 lg:max-h-[700px]'>
         {products.map((product) => {
             return(
-            <div className='py-4' >
-                <div className='py-1 pl-2 w-[980px] h-[60   px] ring-1 ring-slate-400 text-slate-500 cursor-default grid grid-cols-6' key={product.id}>
+            <div className='py-4' key={product.id}>
+                <div className='py-1 pl-2 w-[980px] h-[60   px] ring-1 ring-slate-400 text-slate-500 cursor-default grid grid-cols-6' >
                     
                     <p>{product.name}</p>
                     <p>{product.price}<strong>$</strong></p>

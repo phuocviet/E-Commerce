@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Navbar from '../components/navbar/navbar'
+import Sidebar from '../../components/navbar/sidebar'
 import { toast, ToastContainer } from 'react-toastify'
 
 const EditProduct = () => {
@@ -50,7 +50,7 @@ const EditProduct = () => {
       }
   return (
     <div>
-        <Navbar/>
+        <Sidebar/>
         <ToastContainer/>
         {product && 
         <div className='grid grid-cols-3 mt-16'>

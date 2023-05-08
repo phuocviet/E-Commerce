@@ -3,17 +3,21 @@ import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiSearch, BiCartAlt } from "react-icons/bi";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
+import {BsBag, BsBook} from 'react-icons/bs'
 import { FiMenu } from "react-icons/fi";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { logout } from "../../app/features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = ({ onSearch }) => {
   const [popup, setPopup] = useState(false);
   const [onDrop, setDrop] = useState(false);
   const [search, setSearch] = useState("");
-  // const [isLogin, setIsLogin] = useState(false)
-
-  const currentuser = useSelector(state => state.auth.user[0].email);
+  const location = useLocation()
+  const dispatch = useDispatch()
+ 
+  
+  const currentuser = useSelector(state => state.auth?.user[0]?.email) || '';
   const handleDrop = () => {
     if (onDrop === false) {
       setDrop(true);
@@ -39,7 +43,7 @@ const Navbar = ({ onSearch }) => {
         <div className=" absolute left-8 text-3xl text-white">
           <p>Ama-Gion</p>
         </div>
-        <div className="absolute left-[300px] w-[60%] lg:block hidden ">
+        {location.pathname === "/bookstore" && <div className="absolute left-[300px] w-[60%] lg:block hidden ">
           <button
             className="absolute flex px-4 h-10 text-slate-500 bg-slate-300 rounded-tl-md rounded-bl-md "
             onClick={handleDrop}
@@ -54,7 +58,7 @@ const Navbar = ({ onSearch }) => {
           <input
             value={search}
             onChange={onChange}
-            className="w-[78%] h-10 pl-20 rounded-l-md "
+            className="w-[78%] h-10 pl-20 rounded-l-md focus:outline-none"
           ></input>
           <button
             onClick={handleSubmit}
@@ -62,14 +66,16 @@ const Navbar = ({ onSearch }) => {
           >
             <BiSearch />
           </button>
-        </div>
-        <div className=" absolute right-0 lg:grid md:hidden grid-cols-4 text-white w-[500px] sm:hidden">
+        </div>}
+        <div className=" absolute right-0 lg:grid md:hidden grid-cols-4 text-white w-[420px] sm:hidden">
           <button className="w-16 pl-10">Language</button>
-            { currentuser? 
-            <button className="col-span-2">{currentuser}</button>:
-            <Link to="/login" className="w-28">
-            <span className="text-sm">Hello, sign in </span>Account & list
-            </Link>
+            { currentuser ? 
+            <button onClick={() => setPopup(!popup)} className="col-span-2">{currentuser}</button>:
+            <div className="col-span-2 mt-[15px] ml-[80px]">
+              <Link to="/login">
+                Login
+              </Link>
+            </div>
             }
           <button className="w-16 text-3xl py-3 hover:border-inherit border-solid">
             <BiCartAlt />
@@ -94,22 +100,31 @@ const Navbar = ({ onSearch }) => {
         >
           <a
             href="/"
-            className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
+            className="py-1 px-2 flex transition-all duration-200 ease-in hover:bg-slate-500"
           >
-            Products
+            <BsBag className="mr-5"/>
+            Store
           </a>
-          {currentuser && <a
+          
+          <a
+            href="/bookstore"
+            className="py-1 px-2 flex transition-all duration-200 ease-in hover:bg-slate-500"
+          >
+            <BsBook className="mr-5 mt-1"/>
+            Book store
+          </a>
+          <li className="w-full border my-4 border-gray-400"> </li>
+          {currentuser === 'adminmail@gmail.com' && <a
             href="/product"
             className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
           >
-            Product store
+            Product storage
+            
           </a>}
-          <a
-            href="/bookstore"
-            className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
-          >
-            Book store
-          </a>
+          {currentuser  === 'adminmail@gmail.com' && <li className="w-full border my-4 border-gray-400"> </li>}
+          {currentuser && <button 
+          className="hover:text-red-500 w-0 px-2 py-1"
+          onClick={()=>dispatch(logout())}>Logout</button>}
         </ul>
       </div>
     </nav>

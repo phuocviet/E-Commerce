@@ -9,6 +9,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch()
+  
   const validate = () => {
     let result = true;
     if (!email || !password) {
@@ -25,13 +26,23 @@ const LoginForm = () => {
       .then((res) => {
       const users = res.data;
       const authenticatedUser = users.find(u => u.email === email && u.password === password);
+      //comparing email and password to existed account
+      const adminrole = users.find(u => u.email === 'adminmail@gmail.com')
+      //Checking account are admin or client  
       if (authenticatedUser) {
         toast.success('Login success');
         dispatch(loginSucces(users))
         persistor.flush()
-        setTimeout(()=>{
+        if(adminrole){
+          setTimeout(()=>{
+            window.location.href='/product'
+          },3000)
+        }else{
+          setTimeout(()=>{
           window.location.href='/'
         },3000)
+        }
+        
       }else{
         toast.error('Fail to login')
         dispatch(loginFail())

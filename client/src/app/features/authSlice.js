@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const initialState = {
-    user:null,
+    user:[],
     status: 'idle',
     error: null,
 }
@@ -18,9 +19,18 @@ export const authenSlice = createSlice({
             state.status = 'fail'
             state.error = payload
         },
-
+        logout:(state) =>{
+            state.user = [];
+            state.status = 'idle';
+        }
     },
+    extraReducers: (builder) =>{
+        builder.addCase(logout, (state) =>{
+            state.user = [];
+            state.status = 'idle';
+        });
+    }
 })
 
-export const { loginFail, loginSucces} = authenSlice.actions
+export const { loginFail, loginSucces, logout} = authenSlice.actions
 export default authenSlice.reducer

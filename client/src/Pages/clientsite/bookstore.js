@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 // import {MdArrowDropDown} from 'react-icons/md'
-import Products from "../components/products/products";
+import Products from "../../components/products/products";
 import axios from "axios";
-import Navbar from "../components/navbar/navbar";
+import Navbar from "../../components/navbar/navbar";
 
 const Bookstore = () => {
   const [booksData, setBookData] = useState([]);
