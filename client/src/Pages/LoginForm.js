@@ -8,8 +8,8 @@ import { persistor } from "../app/store";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   const validate = () => {
     let result = true;
     if (!email || !password) {
@@ -24,33 +24,34 @@ const LoginForm = () => {
     axios
       .get("http://localhost:4000/users?email=" + email)
       .then((res) => {
-      const users = res.data;
-      const authenticatedUser = users.find(u => u.email === email && u.password === password);
-      //comparing email and password to existed account
-      const adminrole = users.find(u => u.email === 'adminmail@gmail.com')
-      //Checking account are admin or client  
-      if (authenticatedUser) {
-        toast.success('Login success');
-        dispatch(loginSucces(users))
-        persistor.flush()
-        if(adminrole){
-          setTimeout(()=>{
-            window.location.href='/product'
-          },3000)
-        }else{
-          setTimeout(()=>{
-          window.location.href='/'
-        },3000)
+        const users = res.data;
+        const authenticatedUser = users.find(
+          (u) => u.email === email && u.password === password
+        );
+        //comparing email and password to existed account
+        const adminrole = users.find((u) => u.email === "adminmail@gmail.com");
+        //Checking account are admin or client
+        if (authenticatedUser) {
+          toast.success("Login success");
+          dispatch(loginSucces(users));
+          persistor.flush();
+          if (adminrole) {
+            setTimeout(() => {
+              window.location.href = "/product";
+            }, 3000);
+          } else {
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 3000);
+          }
+        } else {
+          toast.error("Fail to login");
+          dispatch(loginFail());
         }
-        
-      }else{
-        toast.error('Fail to login')
-        dispatch(loginFail())
-      }
       })
-      .catch((err) =>{
-        toast.error("ERROR:" + err.message)
-      })
+      .catch((err) => {
+        toast.error("ERROR:" + err.message);
+      });
   };
 
   return (
