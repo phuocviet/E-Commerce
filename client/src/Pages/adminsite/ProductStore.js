@@ -92,7 +92,7 @@ const ProductStore = () => {
           PRODUCT STORAGE
         </h1>
         <form
-          className="mx-20 my-5 w-max h-max bg-white ring-gray-400 ring-1"
+          className="mx-20 lg:my-20 sm:my-5 w-max h-max bg-white ring-gray-400 ring-1"
           onSubmit={addProduct}
         >
           <div className=" pt-8 pl-5 block">

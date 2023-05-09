@@ -38,14 +38,14 @@ const Navbar = ({ onSearch }) => {
 
   return (
     <nav>
-      <div className="w-full z-20 h-[60px] bg-slate-800 flex justify-center items-center">
+      <div className="w-full z-20 h-[60px] bg-slate-900 flex justify-center items-center">
         <div className=" absolute left-8 text-3xl text-white">
           <p>Ama-Gion</p>
         </div>
         {location.pathname === "/bookstore" && (
           <div className="absolute left-[300px] w-[60%] lg:block hidden ">
             <button
-              className="absolute flex px-4 h-10 text-slate-500 bg-slate-300 rounded-tl-md rounded-bl-md "
+              className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
               onClick={handleDrop}
             >
               <span className="mt-2 pr-1">All</span>
@@ -79,8 +79,9 @@ const Navbar = ({ onSearch }) => {
               <Link to="/login">Login</Link>
             </div>
           )}
-          <button className="w-16 text-3xl py-3 hover:border-inherit border-solid">
+          <button className="w-full flex text-3xl py-3 hover:border-inherit border-solid">
             <BiCartAlt />
+            <span className="rounded-xl text-base font-semibold text-slate-500 px-2 bg-yellow-400">2</span>
           </button>
         </div>
       </div>

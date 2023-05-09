@@ -31,7 +31,7 @@ const Sidebar = () => {
             popup ? "left-0" : "left-[-290px]"
           } absolute`}
         >
-          <div className="flex w-full h-18 mb-5 shadow-lg shadow-slate-700">
+          <div className="flex w-full h-18 mb-5 shadow-lg">
             <h2 className="text-lg font-bold pl-10">Ama-Gion</h2>
             <button
               onClick={() => setPopup(!popup)}
