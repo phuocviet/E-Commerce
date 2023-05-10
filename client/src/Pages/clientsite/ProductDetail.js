@@ -1,54 +1,57 @@
 import axios from "axios";
-import {toast,ToastContainer} from 'react-toastify'
+import { API_BASE } from "../../APIs/Api";
+import { toast, ToastContainer } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/navbar";
+import { persistor } from "../../app/store";
 import { useDispatch } from "react-redux";
 import { AddProduct } from "../../app/features/cartSlice";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const dispatch = useDispatch()
-  const [product, setProduct] = useState("");
+  const dispatch = useDispatch();
+  const [product, setProduct] = useState([]);
   useEffect(() => {
     const getData = async () => {
       await axios
-        .get("http://localhost:4000/products/" + id)
+        .get(`${API_BASE}/products/` + id)
         .then((res) => setProduct(res.data))
         .catch((err) => console.log(err.message));
     };
     getData();
   }, [id]);
-  const handleAddtoCart = async(e) =>{
-    e.preventDefault()
-    const avaibletoSell = product.price !== "unkown"
-    
-    if(avaibletoSell){
-      await axios.post('http://localhost:4000/cart',product) 
-      .then((res)=>{
-        toast.success("Added to your cart")
-        dispatch(AddProduct())
-      })
-      .catch((error => toast.error(error)))
-    }else{
-      toast.error("this product is unvaliable")
+  const handleAddtoCart = async (e) => {
+    e.preventDefault();
+    const avaibletoSell = product.price !== "unkown";
+
+    if (avaibletoSell) {
+      await axios
+        .post(`${API_BASE}/cart`, product)
+        .then((res) => {
+          toast.success("Added to your cart");
+          dispatch(AddProduct(product));
+          persistor.flush(product);
+        })
+        .catch((error) => toast.error(error));
+    } else {
+      toast.error("this product is unvaliable");
     }
-    
-  }
+  };
   return (
     <div>
       <Navbar />
-      <ToastContainer/>
+      <ToastContainer />
       <div>
         {product && (
           <div className="grid grid-cols-3 mt-20 mx-20">
             <div>
               <h4 className="text-2xl">{product.name}</h4>
-            <img
-              src={product.img}
-              alt="productThumb"
-              className="w-[400px] rounded-lg"
-            />
+              <img
+                src={product.img}
+                alt="productThumb"
+                className="w-[400px] rounded-lg"
+              />
             </div>
             {/* left side */}
             <div className=" mt-10">
@@ -121,29 +124,49 @@ const ProductDetail = () => {
             {/* middle side */}
             <div className="flex flex-col mx-40 px-6 w-[60%] h-[500px] border border-gray-400 rounded-lg justify-start ">
               <div className="mt-3">
-                <h3 className="text-2xl"><strong>$</strong>{product.price}</h3>
-                <p className="text-gray-400 text-sm">No Import Fees Deposit & $25.83 Shipping to Vietnam</p>
+                <h3 className="text-2xl">
+                  <strong>$</strong>
+                  {product.price}
+                </h3>
+                <p className="text-gray-400 text-sm">
+                  No Import Fees Deposit & $25.83 Shipping to Vietnam
+                </p>
                 <button className="text-cyan-500">Detail</button>
-                <p>Delivery <strong>Date</strong> Order within <strong>Time</strong></p>
-                <button className="pt-2 text-cyan-500">Deliver to VietNam</button>
+                <p>
+                  Delivery <strong>Date</strong> Order within{" "}
+                  <strong>Time</strong>
+                </p>
+                <button className="pt-2 text-cyan-500">
+                  Deliver to VietNam
+                </button>
                 <p className="py-4 text-green-500 font-semibold">IN STOCK</p>
-                <button onClick={handleAddtoCart} className="text-xl w-[100%] bg-orange-400 text-white px-2 py-0.5 rounded-lg">
+                <button
+                  onClick={handleAddtoCart}
+                  className="text-xl w-[100%] bg-orange-400 text-white px-2 py-0.5 rounded-lg"
+                >
                   BUY
                 </button>
-                <button onClick={handleAddtoCart} className="text-xl mt-5 w-[100%] bg-gray-800 text-white px-4 py-0.5 rounded-lg">
+                <button
+                  onClick={handleAddtoCart}
+                  className="text-xl mt-5 w-[100%] bg-gray-800 text-white px-4 py-0.5 rounded-lg"
+                >
                   ADD TO CART
                 </button>
               </div>
               <div className="grid grid-cols-3 w-[100%] mt-4">
                 <p>Payment</p>
-                <button className='col-span-2 text-cyan-500'>Secure transition</button>
+                <button className="col-span-2 text-cyan-500">
+                  Secure transition
+                </button>
                 <p>Ships from</p>
-                <button className='col-span-2'>AmaGion.com</button>
+                <button className="col-span-2">AmaGion.com</button>
                 <p>Sold by</p>
-                <button className='col-span-2'>AmaGion.com</button>
+                <button className="col-span-2">AmaGion.com</button>
                 <p>Returns</p>
-                <button className='col-span-2 text-cyan-500'>Eligible for Return, Refund or 
-                  Replacement within 30 days of receipt </button>
+                <button className="col-span-2 text-cyan-500">
+                  Eligible for Return, Refund or Replacement within 30 days of
+                  receipt{" "}
+                </button>
               </div>
             </div>
           </div>

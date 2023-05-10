@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { API_BASE } from "../../APIs/Api";
 import Navbar from "../../components/navbar/navbar";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
@@ -12,7 +13,7 @@ const MainStore = () => {
   useEffect(() => {
     const getProducts = async () => {
       await axios
-        .get("http://localhost:4000/products")
+        .get(API_BASE + "/products")
         .then((res) => setProducts(res.data))
         .catch((error) => console.log(error));
     };

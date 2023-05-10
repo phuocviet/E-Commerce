@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE } from "../../APIs/Api";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../../components/navbar/sidebar";
@@ -15,7 +16,7 @@ const EditProduct = () => {
   useEffect(() => {
     const getData = async () => {
       await axios
-        .get("http://localhost:4000/products/" + id)
+        .get(API_BASE + "/products/" + id)
         .then((res) => setProduct(res.data))
         .catch((err) => console.log("ERROR: " + err.message));
     };
@@ -37,7 +38,7 @@ const EditProduct = () => {
       toast.warning("You must fill all the inform");
     } else {
       await axios
-        .put("http://localhost:4000/products/" + id, item)
+        .put(`${API_BASE} /products/${id}`, item)
         .then((json) => JSON.stringify(json.data))
         .then((res) => {
           toast.success("Update success");

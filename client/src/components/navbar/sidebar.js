@@ -12,8 +12,22 @@ import { useDispatch } from "react-redux";
 const Sidebar = () => {
   const [popup, setPopup] = useState();
   const dispacth = useDispatch();
+  const handleLogout = () => {
+    dispacth(logout());
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1000);
+  };
+  const navToLogin = () => {
+    window.location.href = "/login";
+  };
+  const navToStore = () => {
+    window.location.href = "/";
+  };
 
-  const currentuser = useSelector((state) => state.auth?.user[0]?.email);
+  const currentuser = useSelector(
+    (state) => state.persistedReducer.auth?.user[0]?.email
+  );
   return (
     <nav>
       <div className="z-10 flex flex-col">
@@ -72,7 +86,7 @@ const Sidebar = () => {
           {currentuser && (
             <button
               className="hover:text-red-500 w-0 py-1 px-2"
-              onClick={() => dispacth(logout())}
+              onClick={handleLogout}
             >
               Logout
             </button>
@@ -84,15 +98,12 @@ const Sidebar = () => {
               Welcome, {currentuser}
             </button>
           ) : (
-            <button
-              onClick={() => (window.location.href = "/login")}
-              className=" col-span-2"
-            >
+            <button onClick={navToLogin} className=" col-span-2">
               Let's login
             </button>
           )}
           <button
-            onClick={() => (window.location.href = "/")}
+            onClick={navToStore}
             className="w-16  py-3 hover:border-inherit border-solid"
           >
             Store

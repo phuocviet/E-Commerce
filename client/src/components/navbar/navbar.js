@@ -8,6 +8,9 @@ import { FiMenu } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
 import { logout } from "../../app/features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Cart from "../../components/cart/cart";
+
+// import { DeleteProduct } from "../../app/features/cartSlice";
 
 const Navbar = ({ onSearch }) => {
   const [popup, setPopup] = useState(false);
@@ -16,7 +19,12 @@ const Navbar = ({ onSearch }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const currentuser = useSelector((state) => state.auth?.user[0]?.email) || "";
+  const currentuser =
+    useSelector((state) => state.persistedReducer.auth?.user[0]?.email) || "";
+  const itemsInCart = useSelector(
+    (state) => state.persistedReducer.cart.quantity
+  );
+
   const handleDrop = () => {
     if (onDrop === false) {
       setDrop(true);
@@ -35,6 +43,13 @@ const Navbar = ({ onSearch }) => {
     await onSearch(search);
     localStorage.setItem(search);
   };
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.href = "/login";
+  };
+  // const handleDelete = () => {
+  //   dispatch(DeleteProduct())
+  // }
 
   return (
     <nav>
@@ -81,7 +96,12 @@ const Navbar = ({ onSearch }) => {
           )}
           <button className="w-full flex text-3xl py-3 hover:border-inherit border-solid">
             <BiCartAlt />
-            <span className="rounded-xl text-base font-semibold text-slate-500 px-2 bg-yellow-400">2</span>
+            {itemsInCart !== 0 && (
+              <span className="rounded-xl text-base font-semibold text-slate-500 px-2 bg-yellow-400">
+                {itemsInCart}
+              </span>
+            )}
+            {/* <button onClick={handleDelete}>-</button> */}
           </button>
         </div>
       </div>
@@ -94,11 +114,14 @@ const Navbar = ({ onSearch }) => {
             {popup ? <AiOutlineClose /> : <FiMenu />}
           </button>
         </div>
+        <div className="mr-16 text-white font-semibold">
+              <Cart/>
+        </div>
       </div>
       <div className="z-10">
         <ul
           className={`flex flex-col z-10 text-xl text-gray-200 w-64 h-[100vh] bg-slate-800 pt-4 transition-all duration-300 ease-in ${
-            popup ? "left-0" : "left-[-290px]"
+            popup ? "left-0" : "left-[-290px] "
           } absolute`}
         >
           <a
@@ -131,7 +154,7 @@ const Navbar = ({ onSearch }) => {
           {currentuser && (
             <button
               className="hover:text-red-500 w-0 px-2 py-1"
-              onClick={() => dispatch(logout())}
+              onClick={handleLogout}
             >
               Logout
             </button>
