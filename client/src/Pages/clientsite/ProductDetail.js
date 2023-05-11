@@ -29,11 +29,10 @@ const ProductDetail = () => {
       await axios
         .post(`${API_BASE}/cart`, product)
         .then((res) => {
-          toast.success("Added to your cart");
           dispatch(AddProduct(product));
           persistor.flush(product);
         })
-        .catch((error) => toast.error(error));
+        .catch((error) => toast.error(error.message));
     } else {
       toast.error("this product is unvaliable");
     }

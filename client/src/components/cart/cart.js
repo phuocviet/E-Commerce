@@ -26,6 +26,14 @@ const Cart = () => {
   const handleClearAll = () => {
     dispatch(DeleteAllProduct());
   };
+  const setCartPopuptrue = () =>{
+    setCartPopup(true)
+    document.body.style.overflow = 'hidden'
+  }
+  const setCartPopupfalse = () =>{
+    setCartPopup(false)
+    document.body.style.overflow ='scroll'
+  }
   const handlDelete = (id) => {
     const DeleteFromCart = async () => {
         debugger
@@ -34,7 +42,7 @@ const Cart = () => {
         .then(() => {
             dispatch(DeleteProduct(id));
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error.message));
     };
     if (products.length !== 0) {
         DeleteFromCart();
@@ -44,24 +52,23 @@ const Cart = () => {
   };
   return (
     <div>
-      <button onClick={() => setCartPopup(true)} className="float-right">
+      <button onClick={setCartPopuptrue} className="float-right">
         Open
       </button>
       <div
         className={`z-20 absolute ${
           cartPopup ? " right-0 " : "right-[-250px] hidden"
-        } transition-all duration-300 ease-out w-52 shadow-lg border border-slate-400 h-[100vh] bg-white`}
+        } w-52 shadow-lg border border-slate-400 h-[100vh] bg-white`}
       >
         <button
-          onClick={() => setCartPopup(false)}
-          className="text-black z-20 mx-5"
+          onClick={setCartPopupfalse}
+          className="text-black hover:font-bold z-20 mx-5"
         >
           Close
         </button>
-        <button onClick={handleClearAll} className="text-red-500 hover:text-red-400">Clear all</button>
         {productsInCart.map((i) => {
           return (
-            <div key={i.id} className="px-5 my-1 bg-slate-300 h-32">
+            <div key={i.id} className="px-5 my-1 bg-slate-100 h-32">
               <div className="flex flex-col text-slate-800">
                 <p>{i.name}</p>
                 <img src={i.img} alt="" className="w-10"/>
@@ -71,6 +78,7 @@ const Cart = () => {
             </div>
           );
         })}
+        {products && <button onClick={handleClearAll} className="text-red-500 hover:text-red-400 ml-5  ">Clear all</button>}
       </div>
     </div>
   );

@@ -19,6 +19,12 @@ const MainStore = () => {
     };
     getProducts();
   }, []);
+  const getResult = async (search) => {
+    await axios
+    .get(`${API_BASE}/products?q=${search}`)
+    .then((res) => setProducts(res.data))
+    .catch((error) => console.log(error));
+  }
   const currentProducts = useMemo(() => {
     setPageCount(Math.ceil(products.length / itemsperPage));
     const endOffset = itemOffset + itemsperPage;
@@ -33,7 +39,7 @@ const MainStore = () => {
   };
   return (
     <div>
-      <Navbar />
+      <Navbar onSearch={getResult}/>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">
         {currentProducts.map((product) => {
           return (

@@ -57,7 +57,7 @@ const Navbar = ({ onSearch }) => {
         <div className=" absolute left-8 text-3xl text-white">
           <p>Ama-Gion</p>
         </div>
-        {location.pathname === "/bookstore" && (
+        {location.pathname === "/bookstore" ?
           <div className="absolute left-[300px] w-[60%] lg:block hidden ">
             <button
               className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
@@ -82,7 +82,32 @@ const Navbar = ({ onSearch }) => {
               <BiSearch />
             </button>
           </div>
-        )}
+          :
+          <div className="absolute left-[300px] w-[60%] lg:block hidden ">
+            <button
+              className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
+              onClick={handleDrop}
+            >
+              <span className="mt-2 pr-1">All</span>
+              {onDrop ? (
+                <MdArrowDropUp className="mt-2 text-xl" />
+              ) : (
+                <MdArrowDropDown className="mt-2 text-xl" />
+              )}
+            </button>
+            <input
+              value={search}
+              onChange={onChange}
+              className="w-[78%] h-10 pl-20 rounded-l-md focus:outline-none"
+            ></input>
+            <button
+              onClick={handleSubmit}
+              className="absolute text-white text-lg px-4 bg-orange-400 h-10 rounded-tr-md rounded-br-md "
+            >
+              <BiSearch />
+            </button>
+          </div>
+        }
         <div className=" absolute right-0 lg:grid md:hidden grid-cols-4 text-white w-[420px] sm:hidden">
           <button className="w-16 pl-10">Language</button>
           {currentuser ? (
@@ -94,14 +119,14 @@ const Navbar = ({ onSearch }) => {
               <Link to="/login">Login</Link>
             </div>
           )}
-          <button className="w-full flex text-3xl py-3 hover:border-inherit border-solid">
+          
+            <button className="text-3xl flex py-3 hover:border-inherit border-solid">
             <BiCartAlt />
             {itemsInCart !== 0 && (
               <span className="rounded-xl text-base font-semibold text-slate-500 px-2 bg-yellow-400">
                 {itemsInCart}
               </span>
             )}
-            {/* <button onClick={handleDelete}>-</button> */}
           </button>
         </div>
       </div>
@@ -115,7 +140,7 @@ const Navbar = ({ onSearch }) => {
           </button>
         </div>
         <div className="mr-16 text-white font-semibold">
-              <Cart/>
+        <Cart/>
         </div>
       </div>
       <div className="z-10">
