@@ -11,9 +11,9 @@ const CartSlice = createSlice({
   initialState,
   reducers: {
     AddProduct: (state, action) => {
-      const Cart = [...state.products];
-      Cart.push(action.payload);
-      state.products = Cart;
+      const cart = [...state.products];
+      cart.push(action.payload);
+      state.products = cart;
       state.error = false;
       state.quantity++;
     },
@@ -23,12 +23,19 @@ const CartSlice = createSlice({
       state.quantity = 0;
     },
     DeleteProduct: (state, action) => {
-      const Cart = [...state.products];
-      const index = Cart.findIndex((item) => item.id === action.payload.id);
-      Cart.splice(index, 1);
-      state.products = Cart;
-      state.error = false;
-      state.quantity--;
+      const productId = action.payload
+      // console.log(productId);
+      const cart = [...state.products]
+      const productIndex = cart.findIndex((product)=> product.id === productId) 
+      // console.log(productIndex);
+      if(productIndex>=0){
+        cart.splice(productIndex, 1)
+        state.products = cart
+        state.error = false;
+        state.quantity--;
+      }else{
+        state.error = true
+      }
     },
   },
 });

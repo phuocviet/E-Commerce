@@ -92,7 +92,7 @@ const Sidebar = () => {
             </button>
           )}
         </ul>
-        <div className=" absolute right-0 lg:grid md:hidden grid-cols-3 text-slate-800 w-[420px] sm:hidden">
+        <div className=" absolute right-0 lg:grid grid-cols-3 mt-2 text-slate-800 lg:w-[420px] w-max ">
           {currentuser ? (
             <button onClick={() => setPopup(!popup)} className="col-span-2">
               Welcome, {currentuser}

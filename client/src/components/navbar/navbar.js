@@ -47,9 +47,15 @@ const Navbar = ({ onSearch }) => {
     dispatch(logout());
     window.location.href = "/login";
   };
-  // const handleDelete = () => {
-  //   dispatch(DeleteProduct())
-  // }
+  const handlePopUp = () =>{
+    setPopup(!popup)
+    if(popup===false){
+    document.body.style.overflow = 'hidden'
+    }else{
+      document.body.style.overflow = 'scroll'
+    }
+    }
+  
 
   return (
     <nav>
@@ -108,19 +114,19 @@ const Navbar = ({ onSearch }) => {
             </button>
           </div>
         }
-        <div className=" absolute right-0 lg:grid md:hidden grid-cols-4 text-white w-[420px] sm:hidden">
-          <button className="w-16 pl-10">Language</button>
+        <div className=" absolute right-0 lg:grid lg:grid-cols-4 text-white w-[420px] ">
+          <button className="w-16 pl-10 lg:block md:hidden sm:hidden">Language</button>
           {currentuser ? (
-            <button onClick={() => setPopup(!popup)} className="col-span-2">
+            <button onClick={handlePopUp} className="col-span-2 lg:block md:hidden sm:hidden">
               {currentuser}
             </button>
           ) : (
-            <div className="col-span-2 mt-[15px] ml-[80px]">
+            <div className="col-span-2 mt-[15px] ml-[80px] lg:block md:hidden sm:hidden">
               <Link to="/login">Login</Link>
             </div>
           )}
           
-            <button className="text-3xl flex py-3 hover:border-inherit border-solid">
+            <button className="text-3xl flex sm:float-right sm:mr-3 py-3 hover:border-inherit border-solid">
             <BiCartAlt />
             {itemsInCart !== 0 && (
               <span className="rounded-xl text-base font-semibold text-slate-500 px-2 bg-yellow-400">
@@ -133,13 +139,13 @@ const Navbar = ({ onSearch }) => {
       <div className="w-full h-[40px] bg-slate-700">
         <div className=" absolute left-0 top-[68px] ">
           <button
-            onClick={() => setPopup(!popup)}
+            onClick={handlePopUp}
             className="relative text-white text-2xl ml-8"
           >
             {popup ? <AiOutlineClose /> : <FiMenu />}
           </button>
         </div>
-        <div className="mr-16 text-white font-semibold">
+        <div className="lg:mr-16 sm:mr-5 text-white font-semibold">
         <Cart/>
         </div>
       </div>
@@ -149,6 +155,20 @@ const Navbar = ({ onSearch }) => {
             popup ? "left-0" : "left-[-290px] "
           } absolute`}
         >
+          <div className=" w-[80%]  mx-5 mb-5 lg:hidden ">
+            
+            <input
+              value={search}
+              onChange={onChange}
+              className="w-[78%] h-7 pl-2 py-1 text-slate-500 rounded-l-md focus:outline-none"
+            ></input>
+            <button
+              onClick={handleSubmit}
+              className="absolute text-white px-4 bg-orange-400 h-7 rounded-tr-md rounded-br-md "
+            >
+              <BiSearch />
+            </button>
+          </div>
           <a
             href="/"
             className="py-1 px-2 flex transition-all duration-200 ease-in hover:bg-slate-500"
@@ -176,13 +196,21 @@ const Navbar = ({ onSearch }) => {
           {currentuser === "adminmail@gmail.com" && (
             <li className="w-full border my-4 border-gray-400"> </li>
           )}
-          {currentuser && (
-            <button
-              className="hover:text-red-500 w-0 px-2 py-1"
+          {currentuser ? (
+            <div className="px-2 py-1">
+              <p className="lg:hidden hover:underline">{currentuser}</p>
+              <button
+              className="hover:text-red-500 w-0"
               onClick={handleLogout}
-            >
-              Logout
-            </button>
+              >
+                Logout
+              </button>
+            </div>
+            
+          ):(
+            <div className="col-span-2 w-0 px-2">
+              <Link to="/login">Login</Link>
+            </div>
           )}
         </ul>
       </div>

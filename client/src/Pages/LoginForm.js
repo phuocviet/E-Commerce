@@ -38,11 +38,11 @@ const LoginForm = () => {
           if (adminrole) {
             setTimeout(() => {
               window.location.href = "/product";
-            }, 3000);
+            }, 2000);
           } else {
             setTimeout(() => {
               window.location.href = "/";
-            }, 3000);
+            }, 2000);
           }
         } else {
           toast.error("Fail to login");

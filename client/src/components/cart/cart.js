@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { DeleteAllProduct, DeleteProduct } from "../../app/features/cartSlice";
 
+
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const [cartPopup, setCartPopup] = useState(false);
@@ -23,8 +24,12 @@ const Cart = () => {
     };
     fetchProduct();
   }, []);
-  const handleClearAll = () => {
+  const handleClearAll = async () => {
     dispatch(DeleteAllProduct());
+    products.forEach((product) => 
+      axios.delete(`${API_BASE}/cart/${product.id}`)
+          .catch((error) => console.log(error.message))
+      )
   };
   const setCartPopuptrue = () =>{
     setCartPopup(true)
@@ -36,25 +41,28 @@ const Cart = () => {
   }
   const handlDelete = (id) => {
     const DeleteFromCart = async () => {
-        debugger
-      await axios
+      
+        await axios
         .delete(API_BASE + "/cart/" + id)
         .then(() => {
-            dispatch(DeleteProduct(id));
+            dispatch(DeleteProduct(id))
         })
         .catch((error) => console.error(error.message));
-    };
-    if (products.length !== 0) {
+      
+      }
+      if (products.length !== 0) {
         DeleteFromCart();
-    } else {
-      console.warn("No products");
-    }
+      } else {
+        console.warn("No products");
+      }
   };
   return (
     <div>
-      <button onClick={setCartPopuptrue} className="float-right">
+      {productsInCart.length !== 0 && 
+      <button onClick={setCartPopuptrue} className="float-right transition-all ease-in">
         Open
       </button>
+      }
       <div
         className={`z-20 absolute ${
           cartPopup ? " right-0 " : "right-[-250px] hidden"
@@ -62,10 +70,11 @@ const Cart = () => {
       >
         <button
           onClick={setCartPopupfalse}
-          className="text-black hover:font-bold z-20 mx-5"
+          className="text-black hover:text-orange-500 z-20 mx-5"
         >
           Close
         </button>
+        <hr></hr>
         {productsInCart.map((i) => {
           return (
             <div key={i.id} className="px-5 my-1 bg-slate-100 h-32">
@@ -78,7 +87,8 @@ const Cart = () => {
             </div>
           );
         })}
-        {products && <button onClick={handleClearAll} className="text-red-500 hover:text-red-400 ml-5  ">Clear all</button>}
+        <hr></hr>
+        {products && <button onClick={handleClearAll} className=" text-slate-500 font-normal hover:text-red-500 ml-5  ">Clear all</button>}
       </div>
     </div>
   );

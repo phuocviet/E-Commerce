@@ -43,24 +43,20 @@ const ProductDetail = () => {
       <ToastContainer />
       <div>
         {product && (
-          <div className="grid grid-cols-3 mt-20 mx-20">
+          <div className="grid grid-cols-3 mt-20 mx-10">
             <div>
-              <h4 className="text-2xl">{product.name}</h4>
+              
               <img
                 src={product.img}
                 alt="productThumb"
-                className="w-[400px] rounded-lg"
+                className="lg:h-[500px] md:h-[300px] sm:h-[200px] rounded-lg hover:scale-125 transition duration-500"
               />
             </div>
             {/* left side */}
             <div className=" mt-10">
-              <p>
-                <strong>Amount: </strong>
-                {product.amount}
-              </p>
-              <p>
-                <strong>Description:</strong> {product.description}
-              </p>
+              <h4 className="text-2xl">{product.name}</h4>
+              <hr className="border-{0.5px} border-gray-400 w-full"></hr>
+              <p className="text-cyan-500">Visit store</p>
               <div className="flex items-center my-1">
                 <svg
                   className="w-5 h-5 text-yellow-300"
@@ -107,21 +103,29 @@ const ProductDetail = () => {
                 </span>
               </div>
               <hr className="border-{0.5px} border-gray-400 w-full"></hr>
-              <div className="flex mt-2">
-                <p>$</p>
-                <h3 className="text-xl text-slate-800 font-bold">
-                  {product.price}
+              <div className="grid grid-cols-2 mt-2">
+                
+                <h3 className="text-xl text-slate-800 font-bold col-span-2 ">
+                  ${product.price}
                 </h3>
+                <strong>Amount: </strong>
+                <p>
+                {product.amount}
+                </p>
+                <strong>Description:</strong> 
+                <p>
+                  {product.description}
+                </p>
               </div>
-              <button className="text-xl w-40 bg-orange-400 text-white px-4 py-0.5 rounded-lg mt-40">
+              <button className="lg:text-xl lg:w-40 md:text-sm md:w-20 bg-orange-400 text-white px-4 py-0.5 rounded-lg mt-40">
                 BUY
               </button>
-              <button className="text-xl w-40 bg-gray-800 text-white px-4 py-0.5 rounded-lg mt-40 ml-5">
+              <button onClick={handleAddtoCart} className="lg:text-xl lg:w-40 md:text-sm md:w-22 bg-gray-800 text-white px-4 py-0.5 rounded-lg mt-40 ml-5">
                 ADD TO CART
               </button>
             </div>
             {/* middle side */}
-            <div className="flex flex-col mx-40 px-6 w-[60%] h-[500px] border border-gray-400 rounded-lg justify-start ">
+            <div className="flex flex-col mx-10 px-6 lg:w-[50%] md:w-[75%] lg:h-[510px] md:h-[600px] border border-gray-400 rounded-lg sm:overflow-auto">
               <div className="mt-3">
                 <h3 className="text-2xl">
                   <strong>$</strong>
@@ -141,28 +145,28 @@ const ProductDetail = () => {
                 <p className="py-4 text-green-500 font-semibold">IN STOCK</p>
                 <button
                   onClick={handleAddtoCart}
-                  className="text-xl w-[100%] bg-orange-400 text-white px-2 py-0.5 rounded-lg"
+                  className="lg:text-xl md:text-sm w-[100%] bg-orange-400 text-white px-2 py-0.5 rounded-lg"
                 >
                   BUY
                 </button>
                 <button
                   onClick={handleAddtoCart}
-                  className="text-xl mt-5 w-[100%] bg-gray-800 text-white px-4 py-0.5 rounded-lg"
+                  className="lg:text-xl md:text-sm mt-5 w-[100%] bg-gray-800 text-white px-4 py-0.5 rounded-lg"
                 >
                   ADD TO CART
                 </button>
               </div>
-              <div className="grid grid-cols-3 w-[100%] mt-4">
-                <p>Payment</p>
+              <div className=" grid lg:grid-cols-3 sm:grid-cols-2 w-[100%] mt-4 lg:text-md md:text-sm ">
+                <p className="sm:col-span-2 lg:col-span-1">Payment</p>
                 <button className="col-span-2 text-cyan-500">
                   Secure transition
                 </button>
-                <p>Ships from</p>
+                <p className="sm:col-span-2 lg:col-span-1">Ships from</p>
                 <button className="col-span-2">AmaGion.com</button>
-                <p>Sold by</p>
+                <p className="sm:col-span-2 lg:col-span-1">Sold by</p>
                 <button className="col-span-2">AmaGion.com</button>
-                <p>Returns</p>
-                <button className="col-span-2 text-cyan-500">
+                <p className="sm:col-span-2 lg:col-span-1">Returns</p>
+                <button className="col-span-2 text-cyan-500 ">
                   Eligible for Return, Refund or Replacement within 30 days of
                   receipt{" "}
                 </button>

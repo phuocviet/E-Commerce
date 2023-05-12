@@ -97,12 +97,12 @@ const ProductStore = () => {
           <Sidebar />
           <ToastContainer />
 
-          <div className="lg:flex md:block block mt-10">
+          <div className="lg:flex md:block sm:block mt-10">
             <h1 className="text-xl text-neutral-600 font-semibold lg:absolute sm:relative lg:right-44 sm:mx-20 pt-10">
               PRODUCT STORAGE
             </h1>
             <form
-              className="mx-20 lg:my-20 sm:my-5 w-max h-max bg-white ring-gray-400 ring-1"
+              className="mx-20 lg:my-20 sm:my-5 lg:w-[30%] w-[80%] h-max bg-white ring-gray-400 ring-1"
               onSubmit={addProduct}
             >
               <div className=" pt-8 pl-5 block">
@@ -111,7 +111,7 @@ const ProductStore = () => {
                 </label>
                 <input
                   id="title"
-                  className="px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6"
+                  className="px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -122,7 +122,7 @@ const ProductStore = () => {
                 </label>
                 <input
                   id="money"
-                  className="px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6"
+                  className="px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />
@@ -134,7 +134,7 @@ const ProductStore = () => {
                 <input
                   id="description"
                   type="text"
-                  className="px-2 block w-[450px] h-40 mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6 "
+                  className="px-2 block w-[95%] lg:h-40 h-auto mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6 "
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -143,7 +143,7 @@ const ProductStore = () => {
               <div className="pt-8 pl-5 block">
                 <label className="text-neutral-600">Amount: </label>
                 <input
-                  className="px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6"
+                  className="px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                 />
@@ -152,15 +152,15 @@ const ProductStore = () => {
               <div className="pt-8 pl-5 block">
                 <label className="text-neutral-600">Thumbnail: </label>
                 <input
-                  className="px-2 block w-[450px] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none  focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6"
+                  className="px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none  focus:ring-inset focus:ring-0 sm:text-sm sm:leading-6"
                   type="file"
                   onChange={handleFile}
                 />
               </div>
-              <div className=" col-span-full text-center my-8">
+              <div className=" col-span-full text-center lg:my-8 mt-5">
                 <button
                   type="submit"
-                  className=" hover:shadow-gray-400 hover:shadow-lg transition-all duration-100 bg-orange-500 text-white py-1 rounded-md w-[450px]"
+                  className=" hover:shadow-gray-400 hover:shadow-lg transition-all duration-100 bg-orange-500 text-white py-1 mb-5  rounded-md w-[50%]"
                 >
                   Add
                 </button>

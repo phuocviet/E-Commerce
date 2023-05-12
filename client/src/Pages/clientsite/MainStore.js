@@ -41,6 +41,7 @@ const MainStore = () => {
     <div>
       <Navbar onSearch={getResult}/>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">
+        <span className="mb-5 ml-5 text-gray-500 col-span-full underline">admin store</span>
         {currentProducts.map((product) => {
           return (
             <div
