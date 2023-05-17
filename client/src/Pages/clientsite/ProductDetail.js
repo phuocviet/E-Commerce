@@ -20,6 +20,7 @@ const ProductDetail = () => {
       await axios
         .get(`${API_BASE}/products/` + id)
         .then((res) => {
+          
           setProduct(res.data)
           axios.get(`${API_BASE}/users/${userId}`)
           .then((res) => setCart(res.data.cart))
@@ -31,16 +32,19 @@ const ProductDetail = () => {
   }, [id,userId]);
   const handleAddtoCart = async () => {
     const avaibletoSell = product.price !== "unkown";
+    const quantity = {quantity: 1}
+    const addedproduct = {...product, ...quantity}
+    console.log(addedproduct);
     if (avaibletoSell) { 
       if(userId){
         await axios
               .patch(`${API_BASE}/users/${userId}`, {
-                "cart": [...cart,product]
+                "cart": [...cart,addedproduct]
               })
               .then((res) => {
                 console.log(res.data)
-                dispatch(AddProduct(product));
-                persistor.flush(product);
+                dispatch(AddProduct(addedproduct));
+                persistor.flush(addedproduct);
               })
               .catch((err) => console.log(err.message));
       }

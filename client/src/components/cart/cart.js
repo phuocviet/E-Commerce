@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { API_BASE } from "../../APIs/Api";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { DeleteProduct, DeleteAllProduct } from "../../app/features/cartSlice";
+import { DeleteProduct, DeleteAllProduct, ChangingProductQt } from "../../app/features/cartSlice";
 
 
 const Cart = () => {
@@ -45,7 +45,7 @@ const Cart = () => {
           .catch((error) => console.log(error.message))
       )
   };
-
+  
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -73,6 +73,24 @@ const Cart = () => {
   };
    DeleteFromCart() 
 }
+
+  const handleChangingQt = async(e,id) =>{
+    
+    const targetedProduct = products.find((p) => p.id === id);
+    targetedProduct.quantity = e.target.value;
+    const index = products.findIndex((p) => p.id === id);
+    products.splice(index, 1);
+    products.push(targetedProduct);
+    await axios
+      .patch(`${API_BASE}/users/${userId}`,{
+        "cart": [products]
+      })
+      .then((res)=>{
+        console.log(res.data.cart[0]);
+      })
+      .catch((error) => console.log(error.message))
+  }
+
   return (
     <div>
       {productsInCart.length !== 0 && 
@@ -93,13 +111,20 @@ const Cart = () => {
         </button>
         <hr></hr>
         {productsInCart.map((i) => {
+          
           return (
             <div key={i.id} className="px-5 my-1 bg-slate-100 h-32">
               <div className="flex flex-col text-slate-800">
                 <p>{i.name}</p>
                 <div className="flex">
                   <img src={i.img} alt="" className="w-10"/>
-                  <input type="number" className="w-12 h-8 px-1 border"/>
+                  <input 
+                  type="number"
+                  min="1"
+                  max="10"
+                  placeholder={i.quantity} 
+                  onChange={(e)=>handleChangingQt(e,i.id)} 
+                  className="w-12 h-8 px-1 border"/>
                 </div>
                 <p><strong>$</strong>{i.price}</p>
               </div>

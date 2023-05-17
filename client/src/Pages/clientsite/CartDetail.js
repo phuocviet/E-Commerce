@@ -4,7 +4,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { API_BASE } from '../../APIs/Api'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { DeleteProduct, IncreaseProductQt } from '../../app/features/cartSlice'
+import { DeleteProduct } from '../../app/features/cartSlice'
 
 const CartDetail = () => {
     const [products, setproducts] = useState([])
@@ -25,7 +25,7 @@ const CartDetail = () => {
         };
         fetchProduct();
       }, []);
-      const Totalprice = products.reduce((acc, obj)=> acc + parseInt(obj.price),0)
+      const Totalprice = productsInCart.reduce((acc, obj)=> acc + parseInt(obj.price),0)
       const handleDelete = (id) => {
         const DeleteFromCart = async () => {
       
@@ -44,7 +44,7 @@ const CartDetail = () => {
           }
       }
     const handleQtChange = (id) =>{
-      dispatch(IncreaseProductQt(id))
+      
     }
   return (
     <div>
@@ -64,7 +64,12 @@ const CartDetail = () => {
                                     <div className='ml-5'>
                                     <p className='font-semibold'>{p.name}</p>
                                     <p>{formatter.format(p.price)}</p> 
-                                    <input onChange={()=>handleQtChange(p.id)} type='number' className='border w-10 px-1'/>
+                                    <input 
+                                    onChange={()=>handleQtChange(p.id)} 
+                                    type='number' 
+                                    className='border w-10 px-1'
+                                    placeholder={p.quantity}
+                                    />
                                 </div>
                                 </div>
                                 <button onClick={()=>handleDelete(p.id)} className='hover:text-red-500'>

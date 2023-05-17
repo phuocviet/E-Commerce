@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { loginSucces, loginFail } from "../app/features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { persistor } from "../app/store";
-import { DeleteAllProduct, GetCart} from "../app/features/cartSlice";
+import {  DeleteAllProduct, GetCart} from "../app/features/cartSlice";
 // import { DeleteAllProduct } from "../app/features/cartSlice";
 
 const LoginForm = () => {
