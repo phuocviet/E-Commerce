@@ -3,34 +3,53 @@ import { useSelector } from "react-redux";
 import { API_BASE } from "../../APIs/Api";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { DeleteAllProduct, DeleteProduct } from "../../app/features/cartSlice";
+import { DeleteProduct, DeleteAllProduct } from "../../app/features/cartSlice";
 
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const [cartPopup, setCartPopup] = useState(false);
+
   const productsInCart = useSelector(
-    (state) => state.persistedReducer?.cart?.products
+    (state) => state.persistedReducer?.cart?.products || []
   );
+  const userId = useSelector(
+    (state) => state.persistedReducer?.auth?.user[0]?.id || ""
+  )
+  const bill = [...productsInCart]
+  const Totalprice = bill.reduce((acc, obj)=> acc + parseInt(obj.price),0)
   const dispatch = useDispatch();
+  
   useEffect(() => {
     const fetchProduct = () => {
-      axios
-        .get(API_BASE + "/cart")
+      if(userId!==null){
+        axios
+        .get(`${API_BASE}/users/${userId}`)
         .then((res) => {
-          setProducts(res.data);
+          setProducts(res.data.cart);
         })
         .catch((error) => console.log(error.message));
+      }else{
+        setProducts([])
+      }
     };
     fetchProduct();
-  }, []);
+  }, [userId]);
   const handleClearAll = async () => {
     dispatch(DeleteAllProduct());
-    products.forEach((product) => 
-      axios.delete(`${API_BASE}/cart/${product.id}`)
+    products.forEach(() => 
+      axios.patch(`${API_BASE}/users/${userId}`,{
+            "cart":[]
+          })
+          .then(()=>dispatch(DeleteAllProduct()))
           .catch((error) => console.log(error.message))
       )
   };
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
   const setCartPopuptrue = () =>{
     setCartPopup(true)
     document.body.style.overflow = 'hidden'
@@ -41,21 +60,19 @@ const Cart = () => {
   }
   const handlDelete = (id) => {
     const DeleteFromCart = async () => {
-      
-        await axios
-        .delete(API_BASE + "/cart/" + id)
-        .then(() => {
-            dispatch(DeleteProduct(id))
-        })
-        .catch((error) => console.error(error.message));
-      
-      }
-      if (products.length !== 0) {
-        DeleteFromCart();
-      } else {
-        console.warn("No products");
-      }
+      const productIndex = products.findIndex((p) => p.id === id)
+      const updateCart = products.splice(productIndex,1)
+      await axios
+      .patch(`${API_BASE}/users/${userId}`,{
+        "cart": [...updateCart]
+      })
+      .then(()=>{
+        dispatch(DeleteProduct(id))
+      })
+      .catch((error) => console.log(error.message))
   };
+   DeleteFromCart() 
+}
   return (
     <div>
       {productsInCart.length !== 0 && 
@@ -80,7 +97,10 @@ const Cart = () => {
             <div key={i.id} className="px-5 my-1 bg-slate-100 h-32">
               <div className="flex flex-col text-slate-800">
                 <p>{i.name}</p>
-                <img src={i.img} alt="" className="w-10"/>
+                <div className="flex">
+                  <img src={i.img} alt="" className="w-10"/>
+                  <input type="number" className="w-12 h-8 px-1 border"/>
+                </div>
                 <p><strong>$</strong>{i.price}</p>
               </div>
               <button onClick={() => handlDelete(i.id)} className="text-red-500 hover:text-red-400">Delete</button>
@@ -88,7 +108,8 @@ const Cart = () => {
           );
         })}
         <hr></hr>
-        {products && <button onClick={handleClearAll} className=" text-slate-500 font-normal hover:text-red-500 ml-5  ">Clear all</button>}
+        <p className="text-black pl-1">Total: {formatter.format(Totalprice)}</p>
+        <button onClick={handleClearAll} className="text-black px-1">clear</button>
       </div>
     </div>
   );

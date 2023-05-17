@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   products: [],
-  quantity: 0,
+  cartQuantity: 0,
   error: null,
 };
 
@@ -10,17 +10,34 @@ const CartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    GetCart: (state,action) => {
+      const cart = [...state.products];
+      cart.push(action.payload);
+      state.products = cart[0];
+      state.error = false;
+      state.cartQuantity = cart[0].length; 
+    },
     AddProduct: (state, action) => {
       const cart = [...state.products];
       cart.push(action.payload);
       state.products = cart;
       state.error = false;
-      state.quantity++;
+      state.cartQuantity++;
+    },
+    IncreaseProductQt: (state, action) => {
+      const productId = action.payload
+      // console.log(productId);
+      const cart = [...state.products]
+      const product = cart.find((product)=> product.id === productId) 
+      product.quantity = 0
+      if(product){
+        product.quantity += 1;
+      }
     },
     DeleteAllProduct: (state) => {
       state.products = [];
       state.error = false;
-      state.quantity = 0;
+      state.cartQuantity = 0;
     },
     DeleteProduct: (state, action) => {
       const productId = action.payload
@@ -32,7 +49,7 @@ const CartSlice = createSlice({
         cart.splice(productIndex, 1)
         state.products = cart
         state.error = false;
-        state.quantity--;
+        state.cartQuantity--;
       }else{
         state.error = true
       }
@@ -40,6 +57,6 @@ const CartSlice = createSlice({
   },
 });
 
-export const { AddProduct, DeleteAllProduct, DeleteProduct } =
+export const { GetCart, AddProduct, DeleteAllProduct, DeleteProduct, IncreaseProductQt } =
   CartSlice.actions;
 export default CartSlice.reducer;

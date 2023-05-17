@@ -7,6 +7,7 @@ import { BsBag, BsBook } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
 import { logout } from "../../app/features/authSlice";
+import { DeleteAllProduct } from "../../app/features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "../../components/cart/cart";
 
@@ -20,9 +21,9 @@ const Navbar = ({ onSearch }) => {
   const dispatch = useDispatch();
 
   const currentuser =
-    useSelector((state) => state.persistedReducer.auth?.user[0]?.email) || "";
+    useSelector((state) => state.persistedReducer.auth?.user[0]?.email) || [];
   const itemsInCart = useSelector(
-    (state) => state.persistedReducer.cart.quantity
+    (state) => state.persistedReducer.cart.cartQuantity || []
   );
 
   const handleDrop = () => {
@@ -44,8 +45,11 @@ const Navbar = ({ onSearch }) => {
     localStorage.setItem(search);
   };
   const handleLogout = () => {
-    dispatch(logout());
     window.location.href = "/login";
+    setTimeout(()=>{
+      dispatch(logout());
+    dispatch(DeleteAllProduct())
+    },500)
   };
   const handlePopUp = () =>{
     setPopup(!popup)
@@ -55,6 +59,9 @@ const Navbar = ({ onSearch }) => {
       document.body.style.overflow = 'scroll'
     }
     }
+  const movetoCart = () => {
+    window.location.href= "/cart"
+  }  
   
 
   return (
@@ -64,7 +71,7 @@ const Navbar = ({ onSearch }) => {
           <p>Ama-Gion</p>
         </div>
         {location.pathname === "/bookstore" ?
-          <div className="absolute left-[300px] w-[60%] lg:block hidden ">
+          <div className="absolute left-[300px] w-[70%] lg:block hidden ">
             <button
               className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
               onClick={handleDrop}
@@ -89,7 +96,7 @@ const Navbar = ({ onSearch }) => {
             </button>
           </div>
           :
-          <div className="absolute left-[300px] w-[60%] lg:block hidden ">
+          <div className="absolute left-[300px] w-[70%] lg:block hidden ">
             <button
               className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
               onClick={handleDrop}
@@ -126,7 +133,7 @@ const Navbar = ({ onSearch }) => {
             </div>
           )}
           
-            <button className="text-3xl flex sm:float-right sm:mr-3 py-3 hover:border-inherit border-solid">
+            <button onClick={movetoCart} className="text-3xl flex sm:float-right sm:mr-3 py-3 hover:border-inherit border-solid">
             <BiCartAlt />
             {itemsInCart !== 0 && (
               <span className="rounded-xl text-base font-semibold text-slate-500 px-2 bg-yellow-400">

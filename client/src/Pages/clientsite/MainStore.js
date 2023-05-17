@@ -3,6 +3,7 @@ import { API_BASE } from "../../APIs/Api";
 import Navbar from "../../components/navbar/navbar";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
+import FilterBar from "../../components/filters/filterBar";
 
 const MainStore = () => {
   const [products, setProducts] = useState([]);
@@ -14,7 +15,10 @@ const MainStore = () => {
     const getProducts = async () => {
       await axios
         .get(API_BASE + "/products")
-        .then((res) => setProducts(res.data))
+        .then((res) => {
+          setProducts(res.data)
+          
+        })
         .catch((error) => console.log(error));
     };
     getProducts();
@@ -30,6 +34,8 @@ const MainStore = () => {
     const endOffset = itemOffset + itemsperPage;
     return products.slice(itemOffset, endOffset);
   }, [itemOffset, products, itemsperPage]);
+
+  //NAVIGATE TO DETAIL PAGE
   const showDetail = (id) => {
     window.location.href = "/detail/" + id;
   };
@@ -37,15 +43,29 @@ const MainStore = () => {
     const newOffset = (e.selected * itemsperPage) % products.length;
     setItemOffset(newOffset);
   };
+  //FILTER 
+  const handleFilter = (chosed) => {
+    window.location.href = `/:${chosed}`
+  }
+
   return (
     <div>
       <Navbar onSearch={getResult}/>
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">
-        <span className="mb-5 ml-5 text-gray-500 col-span-full underline">admin store</span>
+      <div className="lg:flex lg:flex-col ">
+        <div className="lg:block md:block sm:hidden flex w-[88%] h-[250px] text-center mx-20 mt-5">
+          <img src="https://th.bing.com/th/id/OIP.PIG0mKK4cai_Oxkf9yePdAHaCM?pid=ImgDet&rs=1" 
+          alt="banner"
+          className="relative z-[-1] h-[250px] w-full] "
+          />
+        </div>
+        <FilterBar choseCategory={handleFilter}/>
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">
+        <span className="mb-5 ml-8 text-gray-500 col-span-full ">admin store/</span>
         {currentProducts.map((product) => {
           return (
             <div
-              className="m-5 transition-all ease-in-out hover:shadow-2xl rounded-lg"
+              onClick={() => showDetail(product.id)}
+              className="m-5 transition-all ease-in-out hover:shadow-2xl cursor-pointer rounded-lg"
               key={product.id}
             >
               <div className="">
@@ -119,8 +139,10 @@ const MainStore = () => {
           );
         })}
       </div>
+      </div>
+      
       <ReactPaginate
-        containerClassName="flex flex-row justify-center items-center space-x-2 my-5"
+        containerClassName="flex flex-row justify-center items-center space-x-2 mt-5 mb-10"
         activeClassName="bg-blue-500 text-white rounded-md px-3 py-2"
         pageClassName="rounded-md px-3 py-2 bg-gray-200 text-gray-700"
         previousClassName="rounded-md px-3 py-2 bg-gray-200 text-gray-700"

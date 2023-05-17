@@ -14,14 +14,12 @@ const ProductsList = ({
 
   return (
     <div
-      className="flex-none min-w-full px-4 sm:px-6 md:px-0 lg:overflow-auto scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100
-     scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded dark:scrollbar-track:!bg-slate-500/[0.16] dark:scrollbar-thumb:!bg-slate-500/50 max-h-96
-      lg:supports-scrollbars:pr-2 lg:max-h-[700px]"
+      className="flex-none min-w-full px-4 sm:px-6 md:px-0 xl:overflow-auto lg:overflow-auto md:overflow-auto sm:overflow-auto pr-0 lg:max-h-[700px] border-y"
     >
       {products.map((product) => {
         return (
-          <div className="py-4" key={product.id}>
-            <div className="py-1 pl-2 lg:w-[980px] w-[95%] mx-5 h-[60px] ring-1 ring-slate-400 text-slate-500 cursor-default grid grid-cols-6">
+          <div className="ml-16 py-2" key={product.id}>
+            <div className="py-1 pl-2 lg:w-[980px] w-[95%] h-[60px] ring-1 ring-slate-400 text-slate-500 cursor-default grid grid-cols-6">
               <p>{product.name}</p>
               <p>
                 {product.price}

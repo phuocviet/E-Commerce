@@ -5,34 +5,45 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/navbar";
 import { persistor } from "../../app/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddProduct } from "../../app/features/cartSlice";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
+  const [cart, setCart] = useState([])
+  const userId = useSelector((state)=>state.persistedReducer.auth?.user[0]?.id)
+
   useEffect(() => {
     const getData = async () => {
       await axios
         .get(`${API_BASE}/products/` + id)
-        .then((res) => setProduct(res.data))
+        .then((res) => {
+          setProduct(res.data)
+          axios.get(`${API_BASE}/users/${userId}`)
+          .then((res) => setCart(res.data.cart))
+          .catch((err) => console.log(err.message));
+        })
         .catch((err) => console.log(err.message));
     };
     getData();
-  }, [id]);
-  const handleAddtoCart = async (e) => {
-    e.preventDefault();
+  }, [id,userId]);
+  const handleAddtoCart = async () => {
     const avaibletoSell = product.price !== "unkown";
-
-    if (avaibletoSell) {
-      await axios
-        .post(`${API_BASE}/cart`, product)
-        .then((res) => {
-          dispatch(AddProduct(product));
-          persistor.flush(product);
-        })
-        .catch((error) => toast.error(error.message));
+    if (avaibletoSell) { 
+      if(userId){
+        await axios
+              .patch(`${API_BASE}/users/${userId}`, {
+                "cart": [...cart,product]
+              })
+              .then((res) => {
+                console.log(res.data)
+                dispatch(AddProduct(product));
+                persistor.flush(product);
+              })
+              .catch((err) => console.log(err.message));
+      }
     } else {
       toast.error("this product is unvaliable");
     }
@@ -43,7 +54,7 @@ const ProductDetail = () => {
       <ToastContainer />
       <div>
         {product && (
-          <div className="grid grid-cols-3 mt-20 mx-10">
+          <div className="grid grid-cols-3 mt-20 mx-10 mb-52">
             <div>
               
               <img
@@ -115,6 +126,10 @@ const ProductDetail = () => {
                 <strong>Description:</strong> 
                 <p>
                   {product.description}
+                </p>
+                <strong>Category:</strong> 
+                <p>
+                  {product.category}
                 </p>
               </div>
               <button className="lg:text-xl lg:w-40 md:text-sm md:w-20 bg-orange-400 text-white px-4 py-0.5 rounded-lg mt-40">

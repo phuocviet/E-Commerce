@@ -8,14 +8,20 @@ import ProductStore from "./Pages/adminsite/ProductStore";
 import EditProduct from "./Pages/adminsite/EditProduct";
 import ProductDetail from "./Pages/clientsite/ProductDetail";
 
+import FilteredStore from "./Pages/clientsite/FilteredStore";
+import CartDetail from "./Pages/clientsite/CartDetail";
+
 function App() {
+  
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainStore />} />
+        <Route path="/:category" element={<FilteredStore />} />
         <Route path="/product" element={<ProductStore />} />
         <Route path="/bookstore" element={<Bookstore />} />
         <Route path="/detail/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<CartDetail/>}/>
         <Route path="/edit/:id" element={<EditProduct />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />
