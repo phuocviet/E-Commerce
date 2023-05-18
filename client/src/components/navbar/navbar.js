@@ -46,23 +46,22 @@ const Navbar = ({ onSearch }) => {
   };
   const handleLogout = () => {
     window.location.href = "/login";
-    setTimeout(()=>{
+    setTimeout(() => {
       dispatch(logout());
-    dispatch(DeleteAllProduct())
-    },500)
+      dispatch(DeleteAllProduct());
+    }, 500);
   };
-  const handlePopUp = () =>{
-    setPopup(!popup)
-    if(popup===false){
-    document.body.style.overflow = 'hidden'
-    }else{
-      document.body.style.overflow = 'scroll'
+  const handlePopUp = () => {
+    setPopup(!popup);
+    if (popup === false) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
     }
-    }
+  };
   const movetoCart = () => {
-    window.location.href= "/cart"
-  }  
-  
+    window.location.href = "/cart";
+  };
 
   return (
     <nav>
@@ -70,7 +69,7 @@ const Navbar = ({ onSearch }) => {
         <div className=" absolute left-8 text-3xl text-white">
           <p>Ama-Gion</p>
         </div>
-        {location.pathname === "/bookstore" ?
+        {location.pathname === "/bookstore" ? (
           <div className="absolute left-[300px] w-[70%] lg:block hidden ">
             <button
               className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
@@ -95,7 +94,7 @@ const Navbar = ({ onSearch }) => {
               <BiSearch />
             </button>
           </div>
-          :
+        ) : (
           <div className="absolute left-[300px] w-[70%] lg:block hidden ">
             <button
               className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
@@ -120,11 +119,16 @@ const Navbar = ({ onSearch }) => {
               <BiSearch />
             </button>
           </div>
-        }
+        )}
         <div className=" absolute right-0 lg:grid lg:grid-cols-4 text-white w-[420px] ">
-          <button className="w-16 pl-10 lg:block md:hidden sm:hidden">Language</button>
+          <button className="w-16 pl-10 lg:block md:hidden sm:hidden">
+            Language
+          </button>
           {currentuser ? (
-            <button onClick={handlePopUp} className="col-span-2 lg:block md:hidden sm:hidden">
+            <button
+              onClick={handlePopUp}
+              className="col-span-2 lg:block md:hidden sm:hidden"
+            >
               {currentuser}
             </button>
           ) : (
@@ -132,8 +136,11 @@ const Navbar = ({ onSearch }) => {
               <Link to="/login">Login</Link>
             </div>
           )}
-          
-            <button onClick={movetoCart} className="text-3xl flex sm:float-right sm:mr-3 py-3 hover:border-inherit border-solid">
+
+          <button
+            onClick={movetoCart}
+            className="text-3xl flex sm:float-right sm:mr-3 py-3 hover:border-inherit border-solid"
+          >
             <BiCartAlt />
             {itemsInCart !== 0 && (
               <span className="rounded-xl text-base font-semibold text-slate-500 px-2 bg-yellow-400">
@@ -153,7 +160,7 @@ const Navbar = ({ onSearch }) => {
           </button>
         </div>
         <div className="lg:mr-16 sm:mr-5 text-white font-semibold">
-        <Cart/>
+          <Cart />
         </div>
       </div>
       <div className="z-10">
@@ -163,7 +170,6 @@ const Navbar = ({ onSearch }) => {
           } absolute`}
         >
           <div className=" w-[80%]  mx-5 mb-5 lg:hidden ">
-            
             <input
               value={search}
               onChange={onChange}
@@ -206,15 +212,11 @@ const Navbar = ({ onSearch }) => {
           {currentuser ? (
             <div className="px-2 py-1">
               <p className="lg:hidden hover:underline">{currentuser}</p>
-              <button
-              className="hover:text-red-500 w-0"
-              onClick={handleLogout}
-              >
+              <button className="hover:text-red-500 w-0" onClick={handleLogout}>
                 Logout
               </button>
             </div>
-            
-          ):(
+          ) : (
             <div className="col-span-2 w-0 px-2">
               <Link to="/login">Login</Link>
             </div>

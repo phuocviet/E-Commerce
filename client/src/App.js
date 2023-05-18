@@ -12,7 +12,6 @@ import FilteredStore from "./Pages/clientsite/FilteredStore";
 import CartDetail from "./Pages/clientsite/CartDetail";
 
 function App() {
-  
   return (
     <BrowserRouter>
       <Routes>
@@ -21,7 +20,7 @@ function App() {
         <Route path="/product" element={<ProductStore />} />
         <Route path="/bookstore" element={<Bookstore />} />
         <Route path="/detail/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<CartDetail/>}/>
+        <Route path="/cart" element={<CartDetail />} />
         <Route path="/edit/:id" element={<EditProduct />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />

@@ -12,39 +12,41 @@ const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
-  const [cart, setCart] = useState([])
-  const userId = useSelector((state)=>state.persistedReducer.auth?.user[0]?.id)
+  const [cart, setCart] = useState([]);
+  const userId = useSelector(
+    (state) => state.persistedReducer.auth?.user[0]?.id
+  );
 
   useEffect(() => {
     const getData = async () => {
       await axios
         .get(`${API_BASE}/products/` + id)
         .then((res) => {
-          
-          setProduct(res.data)
-          axios.get(`${API_BASE}/users/${userId}`)
-          .then((res) => setCart(res.data.cart))
-          .catch((err) => console.log(err.message));
+          setProduct(res.data);
+          axios
+            .get(`${API_BASE}/users/${userId}`)
+            .then((res) => setCart(res.data.cart))
+            .catch((err) => console.log(err.message));
         })
         .catch((err) => console.log(err.message));
     };
     getData();
-  }, [id,userId]);
+  }, [id, userId]);
   const handleAddtoCart = async () => {
     const avaibletoSell = product.price !== "unkown";
-    const quantity = {quantity: 1}
-    const addedproduct = {...product, ...quantity}
-    if (avaibletoSell) { 
-      if(userId){
+    const quantity = { quantity: 1 };
+    const addedproduct = { ...product, ...quantity };
+    if (avaibletoSell) {
+      if (userId) {
         await axios
-              .patch(`${API_BASE}/users/${userId}`, {
-                "cart": [...cart,addedproduct]
-              })
-              .then((res) => {
-                dispatch(AddProduct(addedproduct));
-                persistor.flush(addedproduct);
-              })
-              .catch((err) => console.log(err.message));
+          .patch(`${API_BASE}/users/${userId}`, {
+            cart: [...cart, addedproduct],
+          })
+          .then((res) => {
+            dispatch(AddProduct(addedproduct));
+            persistor.flush(addedproduct);
+          })
+          .catch((err) => console.log(err.message));
       }
     } else {
       toast.error("this product is unvaliable");
@@ -58,7 +60,6 @@ const ProductDetail = () => {
         {product && (
           <div className="grid grid-cols-3 mt-20 mx-10 mb-52">
             <div>
-              
               <img
                 src={product.img}
                 alt="productThumb"
@@ -117,27 +118,23 @@ const ProductDetail = () => {
               </div>
               <hr className="border-{0.5px} border-gray-400 w-full"></hr>
               <div className="grid grid-cols-2 mt-2">
-                
                 <h3 className="text-xl text-slate-800 font-bold col-span-2 ">
                   ${product.price}
                 </h3>
                 <strong>Amount: </strong>
-                <p>
-                {product.amount}
-                </p>
-                <strong>Description:</strong> 
-                <p>
-                  {product.description}
-                </p>
-                <strong>Category:</strong> 
-                <p>
-                  {product.category}
-                </p>
+                <p>{product.amount}</p>
+                <strong>Description:</strong>
+                <p>{product.description}</p>
+                <strong>Category:</strong>
+                <p>{product.category}</p>
               </div>
               <button className="lg:text-xl lg:w-40 md:text-sm md:w-20 bg-orange-400 text-white px-4 py-0.5 rounded-lg mt-40">
                 BUY
               </button>
-              <button onClick={handleAddtoCart} className="lg:text-xl lg:w-40 md:text-sm md:w-22 bg-gray-800 text-white px-4 py-0.5 rounded-lg mt-40 ml-5">
+              <button
+                onClick={handleAddtoCart}
+                className="lg:text-xl lg:w-40 md:text-sm md:w-22 bg-gray-800 text-white px-4 py-0.5 rounded-lg mt-40 ml-5"
+              >
                 ADD TO CART
               </button>
             </div>

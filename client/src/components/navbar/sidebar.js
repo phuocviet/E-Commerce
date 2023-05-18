@@ -104,7 +104,7 @@ const Sidebar = () => {
           )}
           <button
             onClick={navToStore}
-            className="w-16  py-3 hover:border-inherit border-solid"
+            className="w-16 h-6 rounded-lg border-orange-500 border hover:border-orange-300 transition-all ease-in  hover:border-inherit border-solid"
           >
             Store
           </button>

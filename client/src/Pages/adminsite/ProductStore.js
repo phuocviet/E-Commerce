@@ -97,9 +97,9 @@ const ProductStore = () => {
         <div>
           <Sidebar />
           <ToastContainer />
-            <h1 className="text-xl text-neutral-600 font-semibold lg:relative sm:relative sm:mx-20 pt-10 mt-5">
-                          PRODUCT STORAGE
-            </h1>
+          <h1 className="text-xl text-neutral-600 font-semibold lg:relative sm:relative sm:mx-20 pt-10 mt-5">
+            PRODUCT STORAGE
+          </h1>
           <div className="lg:grid md:grid sm:block lg:grid-cols-3 mx-5">
             <form
               className=" lg:my-16 lg:ml-10 md:ml-5 sm:my-5 lg:min-w-full md:w-full sm:w-[80%] h-max bg-white ring-gray-400 ring-1"
@@ -157,7 +157,7 @@ const ProductStore = () => {
                 <label className="text-neutral-600">Amount: </label>
                 <input
                   id="amount"
-                  type='number'
+                  type="number"
                   className="px-2 block w-[95%] mr-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 focus:outline-none sm:text-sm sm:leading-6"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}

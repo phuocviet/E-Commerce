@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { loginSucces, loginFail } from "../app/features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { persistor } from "../app/store";
-import {  DeleteAllProduct, GetCart} from "../app/features/cartSlice";
+import { DeleteAllProduct, GetCart } from "../app/features/cartSlice";
 // import { DeleteAllProduct } from "../app/features/cartSlice";
 
 const LoginForm = () => {
@@ -28,15 +28,15 @@ const LoginForm = () => {
       .then((res) => {
         const user = res.data;
         const authenticatedUser = user.find(
-          (u) => u.email === email && u.password === password//comparing email and password to existed account
+          (u) => u.email === email && u.password === password //comparing email and password to existed account
         );
-        
+
         const adminrole = user.find((u) => u.email === "adminmail@gmail.com"); //Checking account is admin or client
-       
+
         if (authenticatedUser) {
           toast.success("Login success");
-          dispatch(DeleteAllProduct())
-          dispatch(GetCart(user[0].cart || []))
+          dispatch(DeleteAllProduct());
+          dispatch(GetCart(user[0].cart || []));
           dispatch(loginSucces(user));
           persistor.flush();
           if (adminrole) {

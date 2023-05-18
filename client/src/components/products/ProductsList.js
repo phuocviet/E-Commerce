@@ -13,20 +13,18 @@ const ProductsList = ({
   };
 
   return (
-    <div
-      className="flex-none min-w-full px-4 sm:px-6 md:px-0 xl:overflow-auto lg:overflow-auto md:overflow-auto sm:overflow-auto pr-0 lg:max-h-[700px] border-y"
-    >
+    <div className="flex-none min-w-full px-4 sm:px-6 md:px-0 xl:overflow-auto lg:overflow-auto md:overflow-auto sm:overflow-auto pr-0 lg:max-h-[700px] border-y">
       {products.map((product) => {
         return (
-          <div className="ml-16 py-2" key={product.id}>
-            <div className="py-1 pl-2 lg:w-[980px] w-[95%] h-[60px] ring-1 ring-slate-400 text-slate-500 cursor-default grid grid-cols-6">
+          <div className="ml-8 py-2" key={product.id}>
+            <div className="py-1 pl-2 lg:w-[1000px] w-[95%] h-[60px] ring-1 ring-slate-400 text-slate-500 cursor-default grid grid-cols-6">
               <p>{product.name}</p>
-              <p>
+              <p className="w-[160px]">
                 {product.price}
                 <strong>$</strong>
               </p>
-              <p className="w-[160px]">{product.description}</p>
-              <p>amt: {product.amount}</p>
+              <p className=" overflow-auto">{product.description}</p>
+              <p className="pl-2">amt: {product.amount}</p>
               <img src={product.img} alt="" className="w-10" />
               <div className="flex justify-around">
                 {isDeleting === product.id ? (
