@@ -3,13 +3,12 @@ import { useSelector } from "react-redux";
 import { API_BASE } from "../../APIs/Api";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { DeleteProduct, DeleteAllProduct, ChangingProductQt } from "../../app/features/cartSlice";
+import { DeleteProduct, DeleteAllProduct, UpdateCart } from "../../app/features/cartSlice";
 
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const [cartPopup, setCartPopup] = useState(false);
-
   const productsInCart = useSelector(
     (state) => state.persistedReducer?.cart?.products || []
   );
@@ -17,7 +16,7 @@ const Cart = () => {
     (state) => state.persistedReducer?.auth?.user[0]?.id || ""
   )
   const bill = [...productsInCart]
-  const Totalprice = bill.reduce((acc, obj)=> acc + parseInt(obj.price),0)
+  const Totalprice = bill.reduce((acc, obj)=> acc + parseInt(obj.price*obj.quantity),0)
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -73,24 +72,18 @@ const Cart = () => {
   };
    DeleteFromCart() 
 }
-
-  const handleChangingQt = async(e,id) =>{
-    
-    const targetedProduct = products.find((p) => p.id === id);
-    targetedProduct.quantity = e.target.value;
-    const index = products.findIndex((p) => p.id === id);
-    products.splice(index, 1);
-    products.push(targetedProduct);
-    await axios
-      .patch(`${API_BASE}/users/${userId}`,{
-        "cart": [products]
-      })
-      .then((res)=>{
-        console.log(res.data.cart[0]);
-      })
-      .catch((error) => console.log(error.message))
+  const handleUpdate = (e,id) => {
+    dispatch(UpdateCart((
+      productsInCart.map((i) => {
+      if (i.id === id) {
+      return { ...i, quantity: e.target.value };
+      } else {
+      return i;
+      }
+      }))))
+      console.log(products);
   }
-
+  
   return (
     <div>
       {productsInCart.length !== 0 && 
@@ -111,7 +104,7 @@ const Cart = () => {
         </button>
         <hr></hr>
         {productsInCart.map((i) => {
-          
+          const newprice = i.price * i.quantity
           return (
             <div key={i.id} className="px-5 my-1 bg-slate-100 h-32">
               <div className="flex flex-col text-slate-800">
@@ -120,13 +113,14 @@ const Cart = () => {
                   <img src={i.img} alt="" className="w-10"/>
                   <input 
                   type="number"
-                  min="1"
+                  min="0"
                   max="10"
-                  placeholder={i.quantity} 
-                  onChange={(e)=>handleChangingQt(e,i.id)} 
+                  value={i.quantity}
+                  placeholder={i.quantity}
+                  onChange={(e)=>handleUpdate(e,i.id)} 
                   className="w-12 h-8 px-1 border"/>
                 </div>
-                <p><strong>$</strong>{i.price}</p>
+                <p>{formatter.format(newprice)}</p>
               </div>
               <button onClick={() => handlDelete(i.id)} className="text-red-500 hover:text-red-400">Delete</button>
             </div>

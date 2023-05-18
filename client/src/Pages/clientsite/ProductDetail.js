@@ -34,7 +34,6 @@ const ProductDetail = () => {
     const avaibletoSell = product.price !== "unkown";
     const quantity = {quantity: 1}
     const addedproduct = {...product, ...quantity}
-    console.log(addedproduct);
     if (avaibletoSell) { 
       if(userId){
         await axios
@@ -42,7 +41,6 @@ const ProductDetail = () => {
                 "cart": [...cart,addedproduct]
               })
               .then((res) => {
-                console.log(res.data)
                 dispatch(AddProduct(addedproduct));
                 persistor.flush(addedproduct);
               })

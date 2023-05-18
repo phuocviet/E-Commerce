@@ -19,13 +19,15 @@ const CartSlice = createSlice({
     },
     AddProduct: (state, action) => {
       const cart = [...state.products];
+      console.log(cart);
       cart.push(action.payload);
       state.products = cart;
       state.error = false;
       state.cartQuantity++;
     },
-    ChangingProductQt: (state, action) => {
-      console.log(action.payload);
+    UpdateCart: (state, action) => {
+      state.products = action.payload
+      state.error = false 
     },
     DeleteAllProduct: (state) => {
       state.products = [];
@@ -50,6 +52,6 @@ const CartSlice = createSlice({
   },
 });
 
-export const { GetCart, AddProduct, DeleteAllProduct, DeleteProduct, ChangingProductQt } =
+export const { GetCart, AddProduct, DeleteAllProduct, DeleteProduct, UpdateCart } =
   CartSlice.actions;
 export default CartSlice.reducer;
