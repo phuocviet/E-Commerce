@@ -128,15 +128,7 @@ const ProductDetail = () => {
                 <strong>Category:</strong>
                 <p>{product.category}</p>
               </div>
-              <button className="lg:text-xl lg:w-40 md:text-sm md:w-20 bg-orange-400 text-white px-4 py-0.5 rounded-lg mt-40">
-                BUY
-              </button>
-              <button
-                onClick={handleAddtoCart}
-                className="lg:text-xl lg:w-40 md:text-sm md:w-22 bg-gray-800 text-white px-4 py-0.5 rounded-lg mt-40 ml-5"
-              >
-                ADD TO CART
-              </button>
+              
             </div>
             {/* middle side */}
             <div className="flex flex-col mx-10 px-6 lg:w-[50%] md:w-[75%] lg:h-[510px] md:h-[600px] border border-gray-400 rounded-lg sm:overflow-auto">

@@ -79,7 +79,7 @@ const Cart = () => {
     };
     DeleteFromCart();
   };
-  const handleUpdate = (e, id) => {
+  const handleUpdate = async (e, id) => {
     dispatch(
       UpdateCart(
         productsInCart.map((i) => {
@@ -90,7 +90,14 @@ const Cart = () => {
           }
         })
       )
+      
     );
+    await axios
+      .patch(`${API_BASE}/users/${userId}`, {
+        cart: productsInCart,
+      })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.error(err.message));
     console.log(products);
   };
 

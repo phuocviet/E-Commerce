@@ -4,24 +4,36 @@ import Navbar from "../../components/navbar/navbar";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
 import FilterBar from "../../components/filters/filterBar";
+import { useDispatch, useSelector } from "react-redux";
+import { AddProduct } from "../../app/features/cartSlice";
+import { persistor } from "../../app/store";
 
 const MainStore = () => {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const itemsperPage = 14;
-
+  const userId = useSelector(
+    (state) => state.persistedReducer.auth?.user[0]?.id
+  );
   useEffect(() => {
     const getProducts = async () => {
       await axios
         .get(API_BASE + "/products")
         .then((res) => {
           setProducts(res.data);
+          axios
+          .get(`${API_BASE}/users/${userId}`)
+          .then((res) => {
+            setCart(res.data.cart)
+          })
+          .catch((err) => console.log(err.message));
         })
         .catch((error) => console.log(error));
     };
     getProducts();
-  }, []);
+  }, [userId]);
   const getResult = async (search) => {
     await axios
       .get(`${API_BASE}/products?q=${search}`)
@@ -33,7 +45,7 @@ const MainStore = () => {
     const endOffset = itemOffset + itemsperPage;
     return products.slice(itemOffset, endOffset);
   }, [itemOffset, products, itemsperPage]);
-
+  
   //NAVIGATE TO DETAIL PAGE
   const showDetail = (id) => {
     window.location.href = "/detail/" + id;
@@ -42,10 +54,34 @@ const MainStore = () => {
     const newOffset = (e.selected * itemsperPage) % products.length;
     setItemOffset(newOffset);
   };
-  //FILTER
+
   const handleFilter = (chosed) => {
     window.location.href = `/:${chosed}`;
   };
+
+  
+  const dispatch = useDispatch()
+
+  const handleAddtoCart = async (product) =>{
+    const avaibletoSell = product.price !== "unkown";
+    const quantity = { quantity: 1 };
+    const addedproduct = { ...product, ...quantity };
+    if (avaibletoSell) {
+      if (userId) {
+        await axios
+          .patch(`${API_BASE}/users/${userId}`, {
+            cart: [...cart, addedproduct],
+          })
+          .then((res) => {
+            dispatch(AddProduct(addedproduct));
+            persistor.flush(addedproduct);
+          })
+          .catch((err) => console.log(err.message));
+      }
+    } else {
+      console.error("this product is unvaliable");
+    }
+  }
 
   return (
     <div>
@@ -66,13 +102,12 @@ const MainStore = () => {
           {currentProducts.map((product) => {
             return (
               <div
-                onClick={() => showDetail(product.id)}
                 className="m-5 transition-all ease-in-out hover:shadow-2xl cursor-pointer rounded-lg"
                 key={product.id}
               >
                 <div className="">
                   <header className="flex justify-center">
-                    <img src={product.img} alt="" className=" h-[300px] " />
+                    <img onClick={() => showDetail(product.id)} src={product.img} alt="" className=" h-[300px] " />
                   </header>
                   <div className="ml-4 mb-3">
                     <h4 className=" italic text-xl">{product.name}</h4>
@@ -123,16 +158,16 @@ const MainStore = () => {
                         5.0
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <p>
-                        <strong>$</strong>
-                        {product.price}
-                      </p>
+                    <p>
+                      <strong>$</strong>
+                      {product.price}
+                    </p>
+                    <div className="px-1 my-2">
                       <button
-                        onClick={() => showDetail(product.id)}
-                        className="font-semibold mr-10 rounded-xl ring-1 ring-slate-800 hover:ring-transparent hover:bg-orange-500 hover:text-white px-2 py-1"
+                        onClick={() => handleAddtoCart(product)}
+                        className="font-semibold mr-10 rounded-sm bg-gradient-to-b from-yellow-300 to-yellow-200 hover:ring-transparent hover:from-yellow-200 hover:to-yellow-300 w-full px-2 py-1"
                       >
-                        Buy now
+                        Add to cart
                       </button>
                     </div>
                   </div>

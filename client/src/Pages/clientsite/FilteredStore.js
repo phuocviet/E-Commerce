@@ -126,13 +126,14 @@ const FilteredStore = () => {
                         <strong>$</strong>
                         {product.price}
                       </p>
-                      <button
+                    
+                    </div>
+                    <button
                         onClick={() => showDetail(product.id)}
-                        className="font-semibold mr-10 rounded-xl ring-1 ring-slate-800 hover:ring-transparent hover:bg-orange-500 hover:text-white px-2 py-1"
+                        className="font-semibold mr-10 rounded-sm bg-gradient-to-b from-yellow-300 to-yellow-200 hover:ring-transparent hover:from-yellow-200 hover:to-yellow-300 w-[97%] px-2 py-1"
                       >
                         Buy now
                       </button>
-                    </div>
                   </div>
                 </div>
               </div>

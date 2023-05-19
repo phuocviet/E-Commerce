@@ -10,6 +10,10 @@ import ProductDetail from "./Pages/clientsite/ProductDetail";
 
 import FilteredStore from "./Pages/clientsite/FilteredStore";
 import CartDetail from "./Pages/clientsite/CartDetail";
+import COAddress from "./Pages/clientsite/CheckoutPages/checkoutAddress";
+import COoptions from "./Pages/clientsite/CheckoutPages/checkoutOptions";
+import COPayment from "./Pages/clientsite/CheckoutPages/checkoutPayment";
+import COConfirm from "./Pages/clientsite/CheckoutPages/checkoutConfirm";
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
         <Route path="/bookstore" element={<Bookstore />} />
         <Route path="/detail/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartDetail />} />
+        <Route path="/checkout" element={<COAddress />} />
+        <Route path="/options" element={<COoptions />} />
+        <Route path="/payment" element={<COPayment />} />
+        <Route path="/confirmCheckout" element={<COConfirm />} />
         <Route path="/edit/:id" element={<EditProduct />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />

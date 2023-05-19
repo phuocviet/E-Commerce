@@ -160,7 +160,7 @@ const Navbar = ({ onSearch }) => {
           </button>
         </div>
         <div className="lg:mr-16 sm:mr-5 text-white font-semibold">
-          <Cart />
+          <Cart/>
         </div>
       </div>
       <div className="z-10">
