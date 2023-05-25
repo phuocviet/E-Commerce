@@ -52,11 +52,11 @@ const FilteredStore = () => {
   return (
     <div>
       <Navbar onSearch={getResult} />
-      <div className="lg:flex lg:flex-col ">
-        <div className="lg:block md:block sm:hidden w-[88%] h-[250px] border mx-20 mt-5 p-1 text-center">
-          <p className="mt-40">Banner here</p>
+      <div className="lg:flex ">
+        <div className="lg:block md:block sm:hidden flex w-[100px] h-[100vh] px-5 mt-10 mr-20">
+
+          <FilterBar choseCategory={handleFilter} />
         </div>
-        <FilterBar choseCategory={handleFilter} />
         <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">
           <span className="mb-5 ml-8 text-gray-500 col-span-full underline">
             admin store
@@ -126,14 +126,13 @@ const FilteredStore = () => {
                         <strong>$</strong>
                         {product.price}
                       </p>
-                    
                     </div>
-                    <button
+                    {/* <button
                         onClick={() => showDetail(product.id)}
                         className="font-semibold mr-10 rounded-sm bg-gradient-to-b from-yellow-300 to-yellow-200 hover:ring-transparent hover:from-yellow-200 hover:to-yellow-300 w-[97%] px-2 py-1"
                       >
                         Buy now
-                      </button>
+                      </button> */}
                   </div>
                 </div>
               </div>

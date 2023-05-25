@@ -128,7 +128,6 @@ const ProductDetail = () => {
                 <strong>Category:</strong>
                 <p>{product.category}</p>
               </div>
-              
             </div>
             {/* middle side */}
             <div className="flex flex-col mx-10 px-6 lg:w-[50%] md:w-[75%] lg:h-[510px] md:h-[600px] border border-gray-400 rounded-lg sm:overflow-auto">

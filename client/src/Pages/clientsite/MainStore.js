@@ -24,11 +24,11 @@ const MainStore = () => {
         .then((res) => {
           setProducts(res.data);
           axios
-          .get(`${API_BASE}/users/${userId}`)
-          .then((res) => {
-            setCart(res.data.cart)
-          })
-          .catch((err) => console.log(err.message));
+            .get(`${API_BASE}/users/${userId}`)
+            .then((res) => {
+              setCart(res.data.cart);
+            })
+            .catch((err) => console.log(err.message));
         })
         .catch((error) => console.log(error));
     };
@@ -45,7 +45,7 @@ const MainStore = () => {
     const endOffset = itemOffset + itemsperPage;
     return products.slice(itemOffset, endOffset);
   }, [itemOffset, products, itemsperPage]);
-  
+
   //NAVIGATE TO DETAIL PAGE
   const showDetail = (id) => {
     window.location.href = "/detail/" + id;
@@ -59,10 +59,9 @@ const MainStore = () => {
     window.location.href = `/:${chosed}`;
   };
 
-  
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const handleAddtoCart = async (product) =>{
+  const handleAddtoCart = async (product) => {
     const avaibletoSell = product.price !== "unkown";
     const quantity = { quantity: 1 };
     const addedproduct = { ...product, ...quantity };
@@ -81,23 +80,19 @@ const MainStore = () => {
     } else {
       console.error("this product is unvaliable");
     }
-  }
+  };
 
   return (
     <div>
       <Navbar onSearch={getResult} />
-      <div className="lg:flex lg:flex-col ">
-        <div className="lg:block md:block sm:hidden flex w-[88%] h-[250px] text-center mx-20 mt-5">
-          <img
-            src="https://th.bing.com/th/id/OIP.PIG0mKK4cai_Oxkf9yePdAHaCM?pid=ImgDet&rs=1"
-            alt="banner"
-            className="relative z-[-1] h-[250px] w-full] "
-          />
+      <div className="lg:flex ">
+        <div className="xl: block lg:block md:block sm:hidden w-[100px] xl:h-[100vh] lg:h-[100vh] md:h-[100px] px-5 mt-5 mr-20">
+          <FilterBar choseCategory={handleFilter} />
         </div>
-        <FilterBar choseCategory={handleFilter} />
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">
-          <span className="mb-5 ml-8 text-gray-500 col-span-full ">
-            admin store/
+
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-5 mx-11">
+          <span className=" ml-8 text-gray-500 col-span-full font-semibold text-lg">
+            Store
           </span>
           {currentProducts.map((product) => {
             return (
@@ -107,7 +102,12 @@ const MainStore = () => {
               >
                 <div className="">
                   <header className="flex justify-center">
-                    <img onClick={() => showDetail(product.id)} src={product.img} alt="" className=" h-[300px] " />
+                    <img
+                      onClick={() => showDetail(product.id)}
+                      src={product.img}
+                      alt=""
+                      className=" h-[300px] "
+                    />
                   </header>
                   <div className="ml-4 mb-3">
                     <h4 className=" italic text-xl">{product.name}</h4>
@@ -162,10 +162,10 @@ const MainStore = () => {
                       <strong>$</strong>
                       {product.price}
                     </p>
-                    <div className="px-1 my-2">
+                    <div className="px-1 my-2 hidden">
                       <button
                         onClick={() => handleAddtoCart(product)}
-                        className="font-semibold mr-10 rounded-sm bg-gradient-to-b from-yellow-300 to-yellow-200 hover:ring-transparent hover:from-yellow-200 hover:to-yellow-300 w-full px-2 py-1"
+                        className="font-semibold mr-10 rounded-sm bg-gradient-to-b from-orange-400 to-yellow-400 hover:ring-transparent hover:from-yellow-200 hover:to-yellow-300 w-full px-2 py-1"
                       >
                         Add to cart
                       </button>

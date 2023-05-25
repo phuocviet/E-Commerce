@@ -50,8 +50,8 @@ const CartDetail = () => {
     }
   };
   const handleBuy = () => {
-    window.location.href = "/checkout"
-  }
+    window.location.href = "/checkout";
+  };
   const handleUpdate = async (e, id) => {
     dispatch(
       UpdateCart(
@@ -115,8 +115,9 @@ const CartDetail = () => {
               })}
               <div className="mt-10 flex justify-between">
                 <h3>Total: {formatter.format(Totalprice)}</h3>
-                <button className="bg-orange-400 hover:bg-cyan-500 px-3 py-1 text-white rounded-lg"
-                        onClick={handleBuy}
+                <button
+                  className="bg-orange-400 hover:bg-gradient-to-b hover:from-orange-500 hover:to-yellow-500 px-3 py-1 text-white rounded-lg"
+                  onClick={handleBuy}
                 >
                   Buy all
                 </button>

@@ -8,6 +8,7 @@ import {
   DeleteAllProduct,
   UpdateCart,
 } from "../../app/features/cartSlice";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -90,7 +91,6 @@ const Cart = () => {
           }
         })
       )
-      
     );
     await axios
       .patch(`${API_BASE}/users/${userId}`, {
@@ -106,15 +106,15 @@ const Cart = () => {
       {productsInCart.length !== 0 && (
         <button
           onClick={setCartPopuptrue}
-          className="float-right transition-all ease-in"
+          className="float-right mr-[55px] mt-1"
         >
           Open
         </button>
       )}
       <div
-        className={`z-20 absolute ${
+        className={`z-[1] absolute ${
           cartPopup ? " right-0 " : "right-[-250px] hidden"
-        } w-52 shadow-lg border border-slate-400 h-[100vh] bg-white`}
+        } w-40 shadow-lg border border-slate-400 h-[100vh] bg-white`}
       >
         <button
           onClick={setCartPopupfalse}
@@ -141,14 +141,17 @@ const Cart = () => {
                     className="w-12 h-8 px-1 border"
                   />
                 </div>
-                <p>{formatter.format(newprice)}</p>
+                <div className="flex justify-between mt-2">
+                  <p>{formatter.format(newprice)}</p>
+                  <button
+                    onClick={() => handlDelete(i.id)}
+                    className="text-red-500 hover:text-red-400 "
+                  >
+                    <AiOutlineDelete/>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                onClick={() => handlDelete(i.id)}
-                className="text-red-500 hover:text-red-400"
-              >
-                Delete
-              </button>
             </div>
           );
         })}

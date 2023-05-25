@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { BiSearch, BiCartAlt } from "react-icons/bi";
+import { BiSearch, BiCartAlt, BiUserCircle } from "react-icons/bi";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { BsBag, BsBook } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { logout } from "../../app/features/authSlice";
 import { DeleteAllProduct } from "../../app/features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,11 +17,10 @@ const Navbar = ({ onSearch }) => {
   const [popup, setPopup] = useState(false);
   const [onDrop, setDrop] = useState(false);
   const [search, setSearch] = useState("");
-  const location = useLocation();
   const dispatch = useDispatch();
 
   const currentuser =
-    useSelector((state) => state.persistedReducer.auth?.user[0]?.email) || [];
+    useSelector((state) => state.persistedReducer.auth?.user[0]?.email) || "";
   const itemsInCart = useSelector(
     (state) => state.persistedReducer.cart.cartQuantity || []
   );
@@ -46,10 +45,8 @@ const Navbar = ({ onSearch }) => {
   };
   const handleLogout = () => {
     window.location.href = "/login";
-    setTimeout(() => {
-      dispatch(logout());
-      dispatch(DeleteAllProduct());
-    }, 500);
+    dispatch(logout());
+    dispatch(DeleteAllProduct());
   };
   const handlePopUp = () => {
     setPopup(!popup);
@@ -60,17 +57,29 @@ const Navbar = ({ onSearch }) => {
     }
   };
   const movetoCart = () => {
-    window.location.href = "/cart";
+    if(currentuser!==""){
+      window.location.href = "/cart";
+    }else{
+      window.location.href = "/login"
+    }
   };
 
   return (
     <nav>
-      <div className="w-full z-20 h-[60px] bg-slate-900 flex justify-center items-center">
-        <div className=" absolute left-8 text-3xl text-white">
-          <p>Ama-Gion</p>
+      {/* top nav */}
+      <div className="w-full z-20 h-[60px] bg-slate-900 flex items-center">
+      {/* left side */}
+        <div className=" relative w-[300px] text-white flex">
+          <p className="text-xl px-5 flex items-center">Ama-Gion</p>
+          <span className="px-5 w-[150px]">
+            Delivery to
+            Location
+          </span>
         </div>
-        {location.pathname === "/bookstore" ? (
-          <div className="absolute left-[300px] w-[70%] lg:block hidden ">
+        
+      {/* middle */}
+        
+          <div className=" relative w-[60%] lg:block hidden ">
             <button
               className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
               onClick={handleDrop}
@@ -85,7 +94,7 @@ const Navbar = ({ onSearch }) => {
             <input
               value={search}
               onChange={onChange}
-              className="w-[78%] h-10 pl-20 rounded-l-md focus:outline-none"
+              className="w-[94%] h-10 pl-20 rounded-l-md focus:outline-none"
             ></input>
             <button
               onClick={handleSubmit}
@@ -94,48 +103,24 @@ const Navbar = ({ onSearch }) => {
               <BiSearch />
             </button>
           </div>
-        ) : (
-          <div className="absolute left-[300px] w-[70%] lg:block hidden ">
-            <button
-              className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
-              onClick={handleDrop}
-            >
-              <span className="mt-2 pr-1">All</span>
-              {onDrop ? (
-                <MdArrowDropUp className="mt-2 text-xl" />
-              ) : (
-                <MdArrowDropDown className="mt-2 text-xl" />
-              )}
-            </button>
-            <input
-              value={search}
-              onChange={onChange}
-              className="w-[78%] h-10 pl-20 rounded-l-md focus:outline-none"
-            ></input>
-            <button
-              onClick={handleSubmit}
-              className="absolute text-white text-lg px-4 bg-orange-400 h-10 rounded-tr-md rounded-br-md "
-            >
-              <BiSearch />
-            </button>
-          </div>
-        )}
-        <div className=" absolute right-0 lg:grid lg:grid-cols-4 text-white w-[420px] ">
-          <button className="w-16 pl-10 lg:block md:hidden sm:hidden">
+
+      {/* right side */}
+        <div className=" relative xl:flex lg:flex md:hidden sm:hidden text-white justify-evenly w-[450px] ">
+          <button className=" lg:block md:hidden sm:hidden">
             Language
           </button>
-          {currentuser ? (
+          {currentuser !== "" ? 
             <button
               onClick={handlePopUp}
-              className="col-span-2 lg:block md:hidden sm:hidden"
+              className="col-span-2 xl:flex lg:flex justify-start items-center md:hidden sm:hidden"
             >
-              {currentuser}
+              <p>Hello, {currentuser}</p>
             </button>
-          ) : (
+          :
             <div className="col-span-2 mt-[15px] ml-[80px] lg:block md:hidden sm:hidden">
               <Link to="/login">Login</Link>
             </div>
-          )}
+          }
 
           <button
             onClick={movetoCart}
@@ -150,41 +135,53 @@ const Navbar = ({ onSearch }) => {
           </button>
         </div>
       </div>
+
+      {/* bot nav */}
       <div className="w-full h-[40px] bg-slate-700">
         <div className=" absolute left-0 top-[68px] ">
           <button
             onClick={handlePopUp}
             className="relative text-white text-2xl ml-8"
           >
-            {popup ? <AiOutlineClose /> : <FiMenu />}
+             <FiMenu />
           </button>
         </div>
-        <div className="lg:mr-16 sm:mr-5 text-white font-semibold">
-          <Cart/>
+        <div className="text-white font-semibold">
+          <Cart />
         </div>
       </div>
-      <div className="z-10">
+      {/* overlay start */}
+      {popup ? 
+      <div className=" z-[5] absolute top-0 w-full h-[100vh] bg-slate-900 opacity-90"></div>:
+      <div className="hidden"></div>
+      }
+      {/* overlay end */}
+      <div className=" absolute flex top-0 left-0">
         <ul
-          className={`flex flex-col z-10 text-xl text-gray-200 w-64 h-[100vh] bg-slate-800 pt-4 transition-all duration-300 ease-in ${
-            popup ? "left-0" : "left-[-290px] "
+          className={`flex flex-col z-10 text-md  text-gray-900 w-[300px] h-[100vh] bg-white pt-4 transition-all duration-300 ease-in ${
+            popup ? "left-0" : "left-[-350px] "
           } absolute`}
         >
-          <div className=" w-[80%]  mx-5 mb-5 lg:hidden ">
+          <div className="w-full flex bg-slate-800 mb-5 text-gray-200 py-3 px-4">
+            <BiUserCircle className="text-2xl "/>
+            <span className="px-3">{currentuser}</span>  
+          </div>
+          <div className=" w-[80%] flex mx-5 mb-5 lg:hidden shadow-lg">
             <input
               value={search}
               onChange={onChange}
-              className="w-[78%] h-7 pl-2 py-1 text-slate-500 rounded-l-md focus:outline-none"
+              className="w-[90%] h-7 pl-2 py-1 text-slate-500 rounded-l-md focus:outline-none"
             ></input>
             <button
               onClick={handleSubmit}
-              className="absolute text-white px-4 bg-orange-400 h-7 rounded-tr-md rounded-br-md "
+              className=" text-white px-4 bg-orange-400 h-7 rounded-tr-md rounded-br-md "
             >
               <BiSearch />
             </button>
           </div>
           <a
             href="/"
-            className="py-1 px-2 flex transition-all duration-200 ease-in hover:bg-slate-500"
+            className="py-1 px-5 flex transition-all duration-200 ease-in hover:bg-slate-500"
           >
             <BsBag className="mr-5" />
             Store
@@ -192,7 +189,7 @@ const Navbar = ({ onSearch }) => {
 
           <a
             href="/bookstore"
-            className="py-1 px-2 flex transition-all duration-200 ease-in hover:bg-slate-500"
+            className="py-1 px-5 flex transition-all duration-200 ease-in hover:bg-slate-500"
           >
             <BsBook className="mr-5 mt-1" />
             Book store
@@ -201,7 +198,7 @@ const Navbar = ({ onSearch }) => {
           {currentuser === "adminmail@gmail.com" && (
             <a
               href="/product"
-              className="py-1 px-2 transition-all duration-200 ease-in hover:bg-slate-500"
+              className="py-1 px-5 transition-all duration-200 ease-in hover:bg-slate-500"
             >
               Product storage
             </a>
@@ -210,17 +207,22 @@ const Navbar = ({ onSearch }) => {
             <li className="w-full border my-4 border-gray-400"> </li>
           )}
           {currentuser ? (
-            <div className="px-2 py-1">
-              <p className="lg:hidden hover:underline">{currentuser}</p>
+            <div className="px-5 py-1">
               <button className="hover:text-red-500 w-0" onClick={handleLogout}>
                 Logout
               </button>
             </div>
           ) : (
-            <div className="col-span-2 w-0 px-2">
+            <div className="col-span-2 w-0 px-5">
               <Link to="/login">Login</Link>
             </div>
           )}
+          <button
+            onClick={handlePopUp}
+            className=" text-white text-2xl absolute top-7 left-[310px] "
+            >
+              <AiOutlineClose />
+            </button>
         </ul>
       </div>
     </nav>
