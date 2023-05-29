@@ -14,14 +14,14 @@ const OrderSlice = createSlice({
         state.error = false
     },
     addDelivery:(state,action)=>{
-        const delivery = state.order.push(action.payload)
-        console.log(delivery);
-        // if(delivery){
-        //     state.order ={...order,delivery}
-        //     state.error =false  
-        // }else{
-        //     state.error = true
-        // }
+        const delivery = action.payload
+        const newOrder = {...state.order,delivery}
+        if(delivery){
+            state.order =newOrder
+            state.error =false  
+        }else{
+            state.error = true
+        }
         
     },
     clearOrder: (state) =>{

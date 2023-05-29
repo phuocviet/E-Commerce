@@ -33,7 +33,7 @@ const COConfirm = () => {
     (state) =>  state.persistedReducer?.order?.order
   )
   const orderPrice = cart.reduce((acc,obj)=> acc + parseInt(obj.price * obj.quantity),0)
-  const total = orderPrice + parseInt(10)
+  const total = orderPrice + parseInt(order.delivery)
   useEffect(() => {
     const getCart = async () => {
       await axios
@@ -72,7 +72,7 @@ const COConfirm = () => {
                   03 Shopping cart...
                 </li>
                 <li className=" hover:cursor-pointer ">04 Payment options</li>
-                <li className=" hover:cursor-pointer">05 Confirmation</li>
+                
               </ul>
               <div className="w-[94%] h-[440px] flex justify-between shadow-2xl">
                 <div className="flex flex-col justify-center mx-40">
@@ -82,8 +82,8 @@ const COConfirm = () => {
                   
                   <label>Your informs:</label>
                   <div className="text-gray-500 ml-2">
-                    <p>Name: {order.lastName} {order.firstName}</p>
-                    <p>Email: {order.email}</p>
+                    <p>Name: {order.username}</p>
+                    {order.email &&<p>Email: {order.email}</p>}
                     <p>Phone: {order.phone}</p>
                     <p>Address:{order.address1}</p>
                   </div>

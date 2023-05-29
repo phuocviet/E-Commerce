@@ -2,15 +2,29 @@ import React, { useState } from "react";
 import { GrNext } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { addDelivery } from "../../../app/features/orderSlice";
+import axios from "axios";
+import { API_BASE } from "../../../APIs/Api";
 
 const COoptions = () => {
   const [delivery, setDelivery] = useState(null)
+  
   const handleSelect = (value) => {
     setDelivery(value)
+    setTimeout(()=>{
+      dispatch(addDelivery(delivery))
+    },100)
   }
-  console.log(delivery);
-  const handleClick = () =>{
-    window.location.href = '/order'
+  const userId = useSelector((state)=>state.persistedReducer?.auth?.user[0].id)
+  const newOrder = useSelector((state)=>state.persistedReducer?.order?.order)
+  const dispatch = useDispatch()
+  const handleClick = async () =>{ 
+    await axios.patch(`${API_BASE}/users/${userId}`,{
+      "order": newOrder
+    })
+    .then(() =>{
+      window.location.href = '/order'
+    })
+    .catch((err)=>console.error(err.message))
   }
   
   return (
@@ -29,7 +43,7 @@ const COoptions = () => {
           />
         </div>
         <div className="w-full">
-          <div className="w-[94%] h-[590px] mx-10 shadow-2xl">
+          <div className="w-[94%] h-[590px] mx-10">
             <ul className="flex justify-around font-semibold">
               <li className=" hover:cursor-pointer">01 Shipping address</li>
               <li className=" hover:cursor-pointer text-orange-500">
@@ -37,53 +51,52 @@ const COoptions = () => {
               </li>
               <li className=" hover:cursor-pointer">03 Shopping cart</li>
               <li className=" hover:cursor-pointer">04 Payment options</li>
-              <li className=" hover:cursor-pointer">05 Confirmation</li>
+              
             </ul>
             <div 
-              className="w-[94%] h-[90%] grid grid-cols-2 mx-10 my-8 "
-              onClick={()=>handleSelect()}
+              className="w-[94%] h-[90%] grid grid-cols-2 my-16 px-20 "            
             >
-              <div className="flex relative h-40 w-[420px] pb-2 hover:cursor-pointer">
+              <div className="flex relative h-40 w-[420px] pb-2 ">
                 <img alt="thumbnail-1" className="w-40 h-40 border rounded-md"/>
                 <div className="flex flex-col ml-3">
                   <h4 className="text-xl">Deliver in one day</h4>
                   <p>You will get your delivery in a day </p>
                   <div className="absolute right-5 bottom-0 ">
-                    <label
-                      htmlFor="default-radio-1"
-                    >Free</label>
+                    <button
+                      onClick={()=>handleSelect('0')}
+                      className="text-green-500"
+                    >Free</button>
                     
                   </div>
                 </div> 
               </div>
               <div 
-                className="flex relative h-40 w-[420px] pb-2 hover:cursor-pointer" 
-                onClick={()=>handleSelect()}
+                className="flex relative h-40 w-[420px] pb-2 " 
               >
                 <img alt="thumbnail-1" className="w-40 h-40 border rounded-md"/>
                 <div className="flex flex-col ml-3">
                   <h4 className="text-xl">Deliver in two days</h4>
                   <p>You will get your delivery in a day </p>
                   <div className="absolute right-5 bottom-0 ">
-                    <label
-                      htmlFor="default-radio-2"
-                    >Free</label>
+                  <button
+                      onClick={()=>handleSelect('0')}
+                      className="text-green-500"
+                    >Free</button>
                   </div>
                 </div> 
               </div>
               <div 
-              className="flex relative h-40 w-[420px] pb-2 hover:cursor-pointer"
-              onClick={()=>handleSelect()}
+              className="flex relative h-40 w-[420px] pb-2 "
               >
                 <img alt="thumbnail-1" className="w-40 h-40 border rounded-md"/>
                 <div className="flex flex-col ml-3">
                   <h4 className="text-xl">Deliver in day</h4>
                   <p>You will get your delivery in a day </p>
                   <div className="absolute right-5 bottom-0 ">
-                    <label
-                     htmlFor="default-radio-3"
-                    >$10</label>
-                    
+                  <button
+                      onClick={()=>handleSelect('10')}
+                      className="text-green-500"
+                    >$10</button>
                   </div>
                 </div> 
               </div>

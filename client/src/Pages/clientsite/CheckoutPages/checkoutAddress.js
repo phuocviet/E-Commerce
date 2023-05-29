@@ -35,7 +35,6 @@ const COAddress = () => {
       setSelectedValue(item)
     
   }
-  
   console.log(selectedValue);
   const handleChange =(e)=>{
     setFormValue({
@@ -45,7 +44,7 @@ const COAddress = () => {
     
   }
   const handleSubmit = async (e) => {
-    if(formValue!==null){
+    if(formValue.username!==""||formValue.phone!=="" || formValue.address1!==""){
       await axios.patch(`${API_BASE}/users/${userId}`,{
           subAddress:[ ...subAddress,formValue]
       })
@@ -55,16 +54,22 @@ const COAddress = () => {
       }) 
     }else{
       e.preventDefault()
-      toast.warn('Something missing')
+      toast.warn('Something missing ')
     }
     
   }
   const handleClick = () => {
     if(selectedValue===null){
-      toast.warn('Something missing')
+      toast.warn('You need to choose an address')
     }else{
-      dispatch(addOrder(selectedValue))
-      window.location.href = "/options"
+      axios.patch(`${API_BASE}/users/${userId}`,{
+        order: selectedValue
+      })
+      .then(()=>{
+        dispatch(addOrder(selectedValue))
+        window.location.href = "/options"
+      })
+      .catch((err)=> console.error(err.message))
     }
   };
 
@@ -93,10 +98,10 @@ const COAddress = () => {
               <li className=" hover:cursor-pointer">02 Shipping options</li>
               <li className=" hover:cursor-pointer">03 Shipping address</li>
               <li className=" hover:cursor-pointer">04 Shipping address</li>
-              <li className=" hover:cursor-pointer">05 Shipping address</li>
+              
             </ul>
-            <div className="grid grid-cols-2">
-              <div className="my-10">
+            <div className="grid grid-cols-2 px-20">
+              <div className="my-10 ">
                 <span className="flex gap-2">
                   Chose address<HiLocationMarker/>
                 </span>
@@ -128,7 +133,7 @@ const COAddress = () => {
                 </div>
               </div>
 
-              <form className="w-[94%] h-[90%] mx-10 my-8 bg-gray-100 flex flex-col justify-center " onSubmit={handleSubmit}>
+              <form className="w-[94%] h-[90%] mx-10 my-8 bg-gray-100 flex flex-col justify-center px-20" onSubmit={handleSubmit}>
                 
                 <h3 className="font-semibold text-lg ">New address</h3>
                 <div className="flex flex-col mb-3">
@@ -145,9 +150,11 @@ const COAddress = () => {
                     <div className="flex flex-col mb-3">
                       <label>Phone number:(*)</label>
                       <input
-                        type="number"
+                        type="tel"
                         name="phone"
+                        id="tel"
                         value={formValue.phone}
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         onChange={handleChange}
                         className="border-slate-400 border w-64 rounded-sm"
                       />
