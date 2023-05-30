@@ -147,10 +147,9 @@ const Cart = () => {
                     onClick={() => handlDelete(i.id)}
                     className="text-red-500 hover:text-red-400 "
                   >
-                    <AiOutlineDelete/>
+                    <AiOutlineDelete />
                   </button>
                 </div>
-                
               </div>
             </div>
           );

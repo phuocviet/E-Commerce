@@ -57,10 +57,10 @@ const Navbar = ({ onSearch }) => {
     }
   };
   const movetoCart = () => {
-    if(currentuser!==""){
+    if (currentuser !== "") {
       window.location.href = "/cart";
-    }else{
-      window.location.href = "/login"
+    } else {
+      window.location.href = "/login";
     }
   };
 
@@ -68,59 +68,54 @@ const Navbar = ({ onSearch }) => {
     <nav>
       {/* top nav */}
       <div className="w-full z-20 h-[60px] bg-slate-900 flex items-center">
-      {/* left side */}
+        {/* left side */}
         <div className=" relative w-[300px] text-white flex">
           <p className="text-xl px-5 flex items-center">Ama-Gion</p>
-          <span className="px-5 w-[150px]">
-            Delivery to
-            Location
-          </span>
+          <span className="px-5 w-[150px]">Delivery to Location</span>
         </div>
-        
-      {/* middle */}
-        
-          <div className=" relative w-[60%] lg:block hidden ">
-            <button
-              className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
-              onClick={handleDrop}
-            >
-              <span className="mt-2 pr-1">All</span>
-              {onDrop ? (
-                <MdArrowDropUp className="mt-2 text-xl" />
-              ) : (
-                <MdArrowDropDown className="mt-2 text-xl" />
-              )}
-            </button>
-            <input
-              value={search}
-              onChange={onChange}
-              className="w-[94%] h-10 pl-20 rounded-l-md focus:outline-none"
-            ></input>
-            <button
-              onClick={handleSubmit}
-              className="absolute text-white text-lg px-4 bg-orange-400 h-10 rounded-tr-md rounded-br-md "
-            >
-              <BiSearch />
-            </button>
-          </div>
 
-      {/* right side */}
-        <div className=" relative xl:flex lg:flex md:hidden sm:hidden text-white justify-evenly w-[450px] ">
-          <button className=" lg:block md:hidden sm:hidden">
-            Language
+        {/* middle */}
+
+        <div className=" relative w-[60%] lg:block hidden ">
+          <button
+            className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
+            onClick={handleDrop}
+          >
+            <span className="mt-2 pr-1">All</span>
+            {onDrop ? (
+              <MdArrowDropUp className="mt-2 text-xl" />
+            ) : (
+              <MdArrowDropDown className="mt-2 text-xl" />
+            )}
           </button>
-          {currentuser !== "" ? 
+          <input
+            value={search}
+            onChange={onChange}
+            className="w-[94%] h-10 pl-20 rounded-l-md focus:outline-none"
+          ></input>
+          <button
+            onClick={handleSubmit}
+            className="absolute text-white text-lg px-4 bg-orange-400 h-10 rounded-tr-md rounded-br-md "
+          >
+            <BiSearch />
+          </button>
+        </div>
+
+        {/* right side */}
+        <div className=" relative xl:flex lg:flex md:hidden sm:hidden text-white justify-evenly w-[450px] ">
+          <button className=" lg:block md:hidden sm:hidden">Language</button>
+          {currentuser !== "" ? (
             <button
               onClick={handlePopUp}
               className="col-span-2 xl:flex lg:flex justify-start items-center md:hidden sm:hidden"
             >
               <p>Hello, {currentuser}</p>
             </button>
-          :
+          ) : (
             <div className="col-span-2 mt-[15px] ml-[80px] lg:block md:hidden sm:hidden">
               <Link to="/login">Login</Link>
             </div>
-          }
+          )}
 
           <button
             onClick={movetoCart}
@@ -143,7 +138,7 @@ const Navbar = ({ onSearch }) => {
             onClick={handlePopUp}
             className="relative text-white text-2xl ml-8"
           >
-             <FiMenu />
+            <FiMenu />
           </button>
         </div>
         <div className="text-white font-semibold">
@@ -151,10 +146,11 @@ const Navbar = ({ onSearch }) => {
         </div>
       </div>
       {/* overlay start */}
-      {popup ? 
-      <div className=" z-[5] absolute top-0 w-full h-[100vh] bg-slate-900 opacity-90"></div>:
-      <div className="hidden"></div>
-      }
+      {popup ? (
+        <div className=" z-[5] absolute top-0 w-full h-[100vh] bg-slate-900 opacity-90"></div>
+      ) : (
+        <div className="hidden"></div>
+      )}
       {/* overlay end */}
       <div className=" absolute flex top-0 left-0">
         <ul
@@ -163,8 +159,8 @@ const Navbar = ({ onSearch }) => {
           } absolute`}
         >
           <div className="w-full flex bg-slate-800 mb-5 text-gray-200 py-3 px-4">
-            <BiUserCircle className="text-2xl "/>
-            <span className="px-3">{currentuser}</span>  
+            <BiUserCircle className="text-2xl " />
+            <span className="px-3">{currentuser}</span>
           </div>
           <div className=" w-[80%] flex mx-5 mb-5 lg:hidden shadow-lg">
             <input
@@ -220,9 +216,9 @@ const Navbar = ({ onSearch }) => {
           <button
             onClick={handlePopUp}
             className=" text-white text-2xl absolute top-7 left-[310px] "
-            >
-              <AiOutlineClose />
-            </button>
+          >
+            <AiOutlineClose />
+          </button>
         </ul>
       </div>
     </nav>

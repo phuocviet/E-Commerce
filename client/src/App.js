@@ -18,6 +18,11 @@ import CatchPage from "./Pages/CatchPage";
 function App() {
   const isAuthed =
     useSelector((state) => state.persistedReducer.auth?.user[0]?.email) || "";
+  const itemsInCart =
+    useSelector((state) => state.persistedReducer?.cart?.products) || [];
+  const cartIsEmpty = 
+    itemsInCart.length === 0
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -27,19 +32,52 @@ function App() {
         <Route path="/bookstore" element={<Bookstore />} />
         <Route path="/detail/:id" element={<ProductDetail />} />
         {/* private routes */}
-        <Route path="/product" element={isAuthed === "adminmail@gmail.com" ? <ProductStore /> : <Navigate to="*" />} />
-        <Route path="/edit/:id" element={isAuthed === "adminmail@gmail.com" ? <EditProduct /> : <Navigate to="*" />}  />
+        <Route
+          path="/product"
+          element={
+            isAuthed === "adminmail@gmail.com" ? (
+              <ProductStore />
+            ) : (
+              <Navigate to="*" />
+            )
+          }
+        />
+        <Route
+          path="/edit/:id"
+          element={
+            isAuthed === "adminmail@gmail.com" ? (
+              <EditProduct />
+            ) : (
+              <Navigate to="*" />
+            )
+          }
+        />
         {/* require auth routes */}
-        <Route path="/cart" element={isAuthed ? <CartDetail />: <Navigate to="/login" />} />
-        <Route path="/checkout" element={isAuthed ? <COAddress /> : <Navigate to="/login" />} />
-        <Route path="/options" element={isAuthed ? <COoptions /> : <Navigate to="/login" />} />
-        <Route path="/payment" element={isAuthed ? <COPayment /> : <Navigate to="/login" />} />
-        <Route path="/order" element={isAuthed ? <COConfirm /> : <Navigate to="/login" />} />
+        <Route
+          path="/cart"
+          element={isAuthed ? <CartDetail /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/checkout"
+          element={isAuthed && !cartIsEmpty ? <COAddress /> : <Navigate to="/cart" />}
+        />
+        <Route
+          path="/options"
+          element={isAuthed && !cartIsEmpty ? <COoptions /> : <Navigate to="/cart" />}
+        />
+        <Route
+          path="/payment"
+          element={isAuthed && !cartIsEmpty ? <COPayment /> : <Navigate to="/cart" />}
+        />
+        <Route
+          path="/order"
+          element={isAuthed && !cartIsEmpty ? <COConfirm /> : <Navigate to="/cart" />}
+        />
         {/* authen routes */}
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/login" element={<LoginForm />} />
         {/* Catch route */}
-        <Route path="*" element={<CatchPage/>} />
+        <Route path="*" element={<CatchPage />} />
       </Routes>
     </BrowserRouter>
   );

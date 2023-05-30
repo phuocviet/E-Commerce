@@ -35,19 +35,19 @@ const CartDetail = () => {
     0
   );
   const handleDelete = (id) => {
+    const productIndex = products.findIndex((p) => p.id === id);
+    const updateCart = products.splice(productIndex, 1);
     const DeleteFromCart = async () => {
       await axios
-        .delete(API_BASE + "/cart/" + id)
+        .patch(`${API_BASE}/users/${userId}`, {
+          cart: [...updateCart],
+        })
         .then(() => {
           dispatch(DeleteProduct(id));
         })
         .catch((error) => console.error(error.message));
     };
-    if (products.length !== 0) {
-      DeleteFromCart();
-    } else {
-      console.warn("No products");
-    }
+    DeleteFromCart();
   };
   const handleBuy = () => {
     window.location.href = "/checkout";

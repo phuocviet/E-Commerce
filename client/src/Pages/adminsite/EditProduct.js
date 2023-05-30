@@ -39,8 +39,7 @@ const EditProduct = () => {
     } else {
       await axios
         .put(`${API_BASE} /products/${id}`, item)
-        .then((json) => JSON.stringify(json.data))
-        .then((res) => {
+        .then(() => {
           toast.success("Update success");
           setTimeout(() => {
             window.location.reload(true);
@@ -56,7 +55,7 @@ const EditProduct = () => {
       <Sidebar />
       <ToastContainer />
       {product && (
-        <div className="grid grid-cols-3 mt-16">
+        <div className="grid grid-cols-3 mt-20">
           <img className=" w-[400px] ml-10" alt="" src={product.img} />
           <form
             className="mx-20 col-span-2 w-[90%] h-max bg-white ring-gray-400 ring-1"

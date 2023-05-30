@@ -54,7 +54,6 @@ const FilteredStore = () => {
       <Navbar onSearch={getResult} />
       <div className="lg:flex ">
         <div className="lg:block md:block sm:hidden flex w-[100px] h-[100vh] px-5 mt-10 mr-20">
-
           <FilterBar choseCategory={handleFilter} />
         </div>
         <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 h-max mt-10 mx-11">

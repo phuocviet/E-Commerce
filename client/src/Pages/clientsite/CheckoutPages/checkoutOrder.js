@@ -29,11 +29,12 @@ const COConfirm = () => {
   const userId = useSelector(
     (state) => state.persistedReducer?.auth?.user[0].id
   );
-  const order = useSelector(
-    (state) =>  state.persistedReducer?.order?.order
-  )
-  const orderPrice = cart.reduce((acc,obj)=> acc + parseInt(obj.price * obj.quantity),0)
-  const total = orderPrice + parseInt(order.delivery)
+  const order = useSelector((state) => state.persistedReducer?.order?.order);
+  const orderPrice = cart.reduce(
+    (acc, obj) => acc + parseInt(obj.price * obj.quantity),
+    0
+  );
+  const total = orderPrice + parseInt(order.delivery);
   useEffect(() => {
     const getCart = async () => {
       await axios
@@ -67,23 +68,22 @@ const COConfirm = () => {
             <div className="w-[94%] h-[440px] mx-10">
               <ul className="flex justify-around font-semibold">
                 <li className=" hover:cursor-pointer">01 Shipping address</li>
-                <li className=" hover:cursor-pointer">02 Shipping options</li>
+                <li className=" hover:cursor-pointer">02 Delivery options</li>
                 <li className=" hover:cursor-pointer text-orange-500">
                   03 Shopping cart...
                 </li>
                 <li className=" hover:cursor-pointer ">04 Payment options</li>
-                
               </ul>
               <div className="w-[94%] h-[440px] flex justify-between shadow-2xl">
                 <div className="flex flex-col justify-center mx-40">
                   <h3 className="text-xl flex font-semibold mb-5">
                     Confirm your order <GrCheckmark className="mx-3" />
                   </h3>
-                  
+
                   <label>Your informs:</label>
                   <div className="text-gray-500 ml-2">
                     <p>Name: {order.username}</p>
-                    {order.email &&<p>Email: {order.email}</p>}
+                    {order.email && <p>Email: {order.email}</p>}
                     <p>Phone: {order.phone}</p>
                     <p>Address:{order.address1}</p>
                   </div>
@@ -102,7 +102,7 @@ const COConfirm = () => {
                     Next
                   </button>
                 </div>
-                
+
                 <div className="bg-gray-100 overflow-auto w-[50%] ">
                   <p className="text-gray-500 px-5">YOUR ITEMS</p>
                   {cart.map((i) => {

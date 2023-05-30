@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { loginSucces, loginFail } from "../app/features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { persistor } from "../app/store";
-import { DeleteAllProduct, GetCart } from "../app/features/cartSlice";
+import { GetCart } from "../app/features/cartSlice";
 // import { DeleteAllProduct } from "../app/features/cartSlice";
 
 const LoginForm = () => {
@@ -35,7 +35,7 @@ const LoginForm = () => {
 
         if (authenticatedUser) {
           toast.success("Login success");
-          dispatch(DeleteAllProduct());
+          
           dispatch(GetCart(user[0].cart || []));
           dispatch(loginSucces(user));
           persistor.flush();

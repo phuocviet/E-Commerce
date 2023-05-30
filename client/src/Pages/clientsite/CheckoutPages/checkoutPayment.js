@@ -11,27 +11,27 @@ import { ToastContainer, toast } from "react-toastify";
 const COPayment = () => {
   const [payment, setPayment] = useState("option 1");
   const [cart, setCart] = useState([]);
-  const [orderDetail, setOrderDetail] = useState(null)
+  const [orderDetail, setOrderDetail] = useState(null);
   const [formValue, setFormValue] = useState({
-    addressName:"",
-    notes:"",
-    phone:""
-  })
-  const [preCheckout, setPreCheckout] = useState(null)
+    addressName: "",
+    notes: "",
+    phone: "",
+  });
+  const [preCheckout, setPreCheckout] = useState(null);
 
   const userId = useSelector(
     (state) => state.persistedReducer?.auth?.user[0].id
   );
   const deliveryFee = useSelector(
     (state) => state.persistedReducer?.order?.order.delivery
-  )
+  );
   useEffect(() => {
     const getAmount = async () => {
       await axios
         .get(`${API_BASE}/users/${userId}`)
         .then((res) => {
-          setCart(res.data.cart)
-          setPreCheckout(res.data.order)
+          setCart(res.data.cart);
+          setPreCheckout(res.data.order);
         })
         .catch((err) => console.error(err.message));
     };
@@ -41,72 +41,72 @@ const COPayment = () => {
     (acc, obj) => acc + parseInt(obj.price * obj.quantity),
     0
   );
-  const totalCost = parseInt(total)+parseInt(deliveryFee)
+  const totalCost = parseInt(total) + parseInt(deliveryFee);
 
   const selectPayment = (e) => {
     setPayment(e.target.value);
   };
-  const dispatch = useDispatch()
-  //COD handle 
-  const handleChange = (e) =>{
+  const dispatch = useDispatch();
+  //COD handle
+  const handleChange = (e) => {
     setFormValue({
       ...formValue,
-      [e.target.name] : e.target.value
-    })
-  }
-  const handleSubmit = () => {
-    setOrderDetail(formValue)
-  }
-  //Paypal config  
-  const createOrder = (data, actions) => {
-      return actions.order.create({
-        purchase_units: [
-          {
-            amount: {
-              value: totalCost,
-            },
-          },
-        ],
-      });
-    }
-  const onApprove= (data, actions) => {
-    return actions.order.capture()
-    .then((detail) => {
-      setOrderDetail({
-        detail
-      })
+      [e.target.name]: e.target.value,
     });
-  }
+  };
+  const handleSetDetail = () => {
+    setOrderDetail(formValue);
+  };
+  console.log(orderDetail);
+  //Paypal config
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: totalCost,
+          },
+        },
+      ],
+    });
+  };
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then((detail) => {
+      setOrderDetail({
+        detail,
+      });
+    });
+  };
   const onCancel = () => {
-    const newOrder = {preCheckout,orderDetail}
-    axios.patch(`${API_BASE}/users/${userId}`,{
-      "cart": [],
-      "order": newOrder,
-    })
-    .catch((err)=> console.error(err.message))
-    dispatch(DeleteAllProduct())
-    window.location.href = "/cart";
-  }
-  const onError = (err) =>{
-    toast.error("There're '0' item in your cart")
-  }
-  //Next button handle
-  const handleClick = async () => {
-    const newOrder = {preCheckout,orderDetail}
-    await axios.patch(`${API_BASE}/users/${userId}`,{
-      "cart": [],
-      "order": newOrder,
-    })
-    .catch((err)=> console.error(err.message))
-    dispatch(DeleteAllProduct())
+    const newOrder = { ...preCheckout, orderDetail };
+    axios
+      .patch(`${API_BASE}/users/${userId}`, {
+        cart: [],
+        order: newOrder,
+      })
+      .catch((err) => console.error(err.message));
+    dispatch(DeleteAllProduct());
     window.location.href = "/cart";
   };
-  
-  console.log(formValue);
+  const onError = (err) => {
+    toast.error("There're '0' item in your cart");
+  };
+  //Next button handle
+  const handleClick = async () => {
+    const newOrder = { preCheckout, orderDetail };
+    await axios
+      .patch(`${API_BASE}/users/${userId}`, {
+        cart: [],
+        order: newOrder,
+      })
+      .catch((err) => console.error(err.message));
+    dispatch(DeleteAllProduct());
+    window.location.href = "/cart";
+  };
 
   return (
     <div className="flex">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="flex flex-col justify-center h-[100vh] w-40 bg-slate-800">
         <button>
           <GrNext className="bg-gray-200 rounded-3xl text-3xl p-1 mx-10" />
@@ -124,12 +124,11 @@ const COPayment = () => {
           <div className="w-[94%] h-[440px] mx-10">
             <ul className="flex justify-around font-semibold">
               <li className=" hover:cursor-pointer">01 Shipping address</li>
-              <li className=" hover:cursor-pointer">02 Shipping options</li>
+              <li className=" hover:cursor-pointer">02 Delivery options</li>
               <li className=" hover:cursor-pointer">03 Shopping cart</li>
               <li className=" hover:cursor-pointer text-orange-500">
                 04 Payment options...
               </li>
-              
             </ul>
             <div className="w-[94%] h-[440px]  mx-10 my-8 grid grid-cols-2 shadow-2xl">
               <div className="px-28 py-5     ">
@@ -173,7 +172,7 @@ const COPayment = () => {
                   </div>
                 </div>
                 {payment === "option 1" && (
-                  <div onSubmit={handleSubmit}>
+                  <div>
                     <div className="flex flex-col mb-3">
                       <label>Name of address:</label>
                       <input
@@ -182,6 +181,7 @@ const COPayment = () => {
                         className="border-slate-400 border w-[80%] px-1 rounded-sm"
                         placeholder="Ex: Home or Company"
                         onChange={handleChange}
+                        onBlur={handleSetDetail}
                       />
                     </div>
                     <div className="flex flex-col mb-3">
@@ -192,6 +192,7 @@ const COPayment = () => {
                         className="border-slate-400 border w-[80%] px-1 rounded-sm"
                         placeholder="Ex: Call me when you arrive"
                         onChange={handleChange}
+                        onBlur={handleSetDetail}
                       />
                     </div>
                     <div className="flex justify-between w-[80%]">
@@ -203,18 +204,19 @@ const COPayment = () => {
                           className="border-slate-400 border w-18 text-lg px-1 rounded-sm "
                           placeholder="(+Country) number"
                           onChange={handleChange}
+                          onBlur={handleSetDetail}
                         />
-                      </div>  
+                      </div>
                     </div>
                   </div>
                 )}
                 {payment === "option 2" && (
                   <div className="flex flex-col">
-                    <PayPalButtons 
-                    createOrder={createOrder} 
-                    onApprove={onApprove} 
-                    onError={onError}
-                    onCancel={onCancel}
+                    <PayPalButtons
+                      createOrder={createOrder}
+                      onApprove={onApprove}
+                      onError={onError}
+                      onCancel={onCancel}
                     />
                   </div>
                 )}
@@ -223,7 +225,7 @@ const COPayment = () => {
                   className="w-40 h-10 bg-gray-200 text-gray-500 mt-10"
                   onClick={handleClick}
                 >
-                  Next
+                  Finish
                 </button>
               </div>
               <div className="border-x px-20 py-20">
