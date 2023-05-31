@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 // import {MdArrowDropDown} from 'react-icons/md'
 import Products from "../../components/products/products";
@@ -7,12 +7,26 @@ import Navbar from "../../components/navbar/navbar";
 
 const Bookstore = () => {
   const [booksData, setBookData] = useState([]);
+  const [volumeName, setVolumeName] = useState("react")
   // const [resultsAmount, setResultsAmount] = useState(20)
   // const seeMore = () => {
   //   setResultsAmount(resultsAmount + 5)
   // }
+  useEffect(()=>{
+    const key = "=AIzaSyDjkBbDFmxbkM0767-wBCKKGoS_-WtAgq4";
+    const api = `https://www.googleapis.com/books/v1/volumes?q=${volumeName}&filter=paid-ebooks&key${key}&maxResults=20`;
+    const showBooks = async () =>{
+        await axios
+          .get(api)
+          // .then(res => console.log(res.data.items))
+          .then((res) => setBookData(res.data.items))
+          .catch((err) => console.log(err));
+      };
+    
+    showBooks()
+  },[volumeName])
   const getbook = async (search) => {
-    const volumeName = search;
+    setVolumeName(search);
     const key = "=AIzaSyDjkBbDFmxbkM0767-wBCKKGoS_-WtAgq4";
     const api = `https://www.googleapis.com/books/v1/volumes?q=${volumeName}&filter=paid-ebooks&key${key}&maxResults=20`;
     await axios
@@ -21,7 +35,7 @@ const Bookstore = () => {
       .then((res) => setBookData(res.data.items))
       .catch((err) => console.log(err));
   };
-  console.log(booksData);
+
   return (
     <div>
       <Navbar onSearch={getbook} />

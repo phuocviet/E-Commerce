@@ -7,6 +7,7 @@ import FilterBar from "../../components/filters/filterBar";
 import { useDispatch, useSelector } from "react-redux";
 import { AddProduct } from "../../app/features/cartSlice";
 import { persistor } from "../../app/store";
+import { toast } from "react-toastify";
 
 const MainStore = () => {
   const [products, setProducts] = useState([]);
@@ -37,7 +38,13 @@ const MainStore = () => {
   const getResult = async (search) => {
     await axios
       .get(`${API_BASE}/products?q=${search}`)
-      .then((res) => setProducts(res.data))
+      .then((res) => {
+        if(!search){
+          toast.warn("The search bar is empty")
+        }else{
+          setProducts(res.data)
+        }
+      })
       .catch((error) => console.log(error));
   };
   const currentProducts = useMemo(() => {

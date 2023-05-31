@@ -5,6 +5,8 @@ import { loginSucces, loginFail } from "../app/features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { persistor } from "../app/store";
 import { GetCart } from "../app/features/cartSlice";
+import Navbar from "../components/navbar/navbar";
+import { Link } from "react-router-dom";
 // import { DeleteAllProduct } from "../app/features/cartSlice";
 
 const LoginForm = () => {
@@ -59,13 +61,15 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div>
       <ToastContainer />
+      <div className="flex flex-col items-center justify-center p-10">
       <img
         src="https://bgr.com/wp-content/uploads/2021/05/amazon-sign.jpg?quality=70&strip=all"
         className="h-40 rounded-md"
         alt="logo"
       />
+      
       <form
         className="block gap-4 rows-2 my-5 h-max bg-white ring-gray-400 ring-1 shadow-md rounded-lg"
         onSubmit={handleLogin}
@@ -102,11 +106,15 @@ const LoginForm = () => {
             Login
           </button>
         </div>
-        <div className="text-center my-3 text-blue-800 underline">
+        <div className="flex flex-col text-center my-3 text-blue-800 underline">
           <a href="/signup">Create an account</a>
+          <p className="text-black decoration-none"> or</p>
+          <Link to="/"> Go back homepage</Link>
         </div>
       </form>
     </div>
+    </div>
+    
   );
 };
 

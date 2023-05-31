@@ -39,9 +39,7 @@ const Navbar = ({ onSearch }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await onSearch(search);
-    localStorage.setItem(search);
   };
   const handleLogout = () => {
     window.location.href = "/login";
@@ -76,7 +74,7 @@ const Navbar = ({ onSearch }) => {
 
         {/* middle */}
 
-        <div className=" relative w-[60%] lg:block hidden ">
+        <form className=" relative w-[60%] lg:block hidden " onSubmit={handleSubmit}>
           <button
             className="absolute flex px-4 h-10 text-slate-600 bg-slate-300 rounded-tl-md rounded-bl-md "
             onClick={handleDrop}
@@ -94,12 +92,12 @@ const Navbar = ({ onSearch }) => {
             className="w-[94%] h-10 pl-20 rounded-l-md focus:outline-none"
           ></input>
           <button
-            onClick={handleSubmit}
+            type="submit"
             className="absolute text-white text-lg px-4 bg-orange-400 h-10 rounded-tr-md rounded-br-md "
           >
             <BiSearch />
           </button>
-        </div>
+        </form>
 
         {/* right side */}
         <div className=" relative xl:flex lg:flex md:hidden sm:hidden text-white justify-evenly w-[450px] ">
@@ -107,13 +105,15 @@ const Navbar = ({ onSearch }) => {
           {currentuser !== "" ? (
             <button
               onClick={handlePopUp}
-              className="col-span-2 xl:flex lg:flex justify-start items-center md:hidden sm:hidden"
+              className="xl:flex lg:flex justify-start items-center md:hidden sm:hidden"
             >
               <p>Hello, {currentuser}</p>
             </button>
           ) : (
-            <div className="col-span-2 mt-[15px] ml-[80px] lg:block md:hidden sm:hidden">
+            <div className=" mt-[15px]  xl:flex lg:flex md:hidden sm:hidden justify-between">
               <Link to="/login">Login</Link>
+              <span className="px-5">/</span>
+              <Link to="/signup">Sign-up</Link>
             </div>
           )}
 

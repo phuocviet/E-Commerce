@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const SignUpForm = () => {
@@ -126,6 +127,8 @@ const SignUpForm = () => {
         </div>
         <div className=" col-span-full text-center my-3 text-blue-800 underline">
           <a href="/login">Having account? Login right now</a>
+          <p className="text-black decoration-none"> or</p>
+          <Link to="/"> Go back homepage</Link>
         </div>
       </form>
     </div>
