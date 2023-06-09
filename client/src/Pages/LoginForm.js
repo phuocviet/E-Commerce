@@ -5,7 +5,6 @@ import { loginSucces, loginFail } from "../app/features/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { persistor } from "../app/store";
 import { GetCart } from "../app/features/cartSlice";
-import Navbar from "../components/navbar/navbar";
 import { Link } from "react-router-dom";
 // import { DeleteAllProduct } from "../app/features/cartSlice";
 

@@ -22,11 +22,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && json-server -p 4000 --watch data/db.json" ,
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start:json-server": "json-server -p 4000 --watch data/db.json"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
